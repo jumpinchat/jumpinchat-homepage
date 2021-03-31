@@ -1,0 +1,87 @@
+extends ../../../layouts/default
+include ../../../mixins/room/settingsMenu
+
+block content
+  .site-wrapper
+    include ../../../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header #{room.name} <i class="fa fa-angle-right"></i> Settings <i class="fa fa-angle-right"></i> #{page}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +roomSettingsMenu(room.name, page)
+          .multicol__Main
+            if roomGold && userIsMod
+              section.form__Segment.profile__Container
+                h2.form__Header Add room emoji
+
+                p
+                  | Want some emoji ideas?
+                  | Check out&nbsp;
+                  a(href="https://discordemoji.com", target="_blank", rel="noopener noreferrer") discordemoji.com
+
+                form(method="post", enctype="multipart/form-data")
+                  input(type='hidden', name='action', value='uploadEmoji')
+                  .form__InputContainer
+                    label.form__Label(for="file") Image should ideally be square. It will be resized automatically. (Max file size 128Kb)
+                    input.form__Input(type="file", name="image", id="file")
+
+                  .form__InputContainer
+                    label.form__Label(for="alias") Create a name for your emoji. Colons will be included, e.g. <samp>foo</samp> will be triggered with <samp>:foo:</samp>
+                    input.form__Input(type="text", name="alias", id="alias")
+                  .form__InputContainer
+                    button.button.button--blue(type="submit") Upload emoji
+
+            if !roomGold && userIsMod
+              section.form__Segment.profile__Container
+                h2.form__Header Add room emoji
+
+                p
+                  | Rooms with gold status can add custom emoji
+
+
+                if String(user._id) === String(roomOwner._id)
+                  a(href=`/support`).button.button--red
+                    i.fa.fa-heart.button__Icon
+                    | Become a Supporter
+                else
+                  a(href=`/support/payment?productId=onetime&amount=300&beneficiary=${roomOwner._id}`).button.button--red
+                    i.fa.fa-heart.button__Icon
+                    | Gift Support
+
+
+            section.form__Segment.profile__Container
+              h2.form__Header Room emoji
+              if emoji.length > 0
+                table
+                  thead
+                    tr
+                      th image
+                      th alias
+                      th added by
+                      th
+                  tbody
+                    each emojiItem in emoji
+                      tr
+                        td
+                          img.userIconPreview__Icon(src=`https://s3.amazonaws.com/jic-uploads/${emojiItem.image}`, alt="${emojiItem.alias}")
+                        td
+                          strong= `:${emojiItem.alias}:`
+                        td
+                          a(href=`/profile/${emojiItem.addedBy.username}`).profile__UserSnippet
+                            img.userIconPreview__Icon(src=`https://s3.amazonaws.com/jic-uploads/${emojiItem.addedBy.profile.pic}`, alt=`${emojiItem.addedBy.username}`)
+                            span= emojiItem.addedBy.username
+                        td
+                          if user && (String(user._id) === String(roomOwner._id) || String(emojiItem.addedBy._id) === String(user._id))
+                            form(method="post")
+                              input(type='hidden', name='action', value='removeEmoji')
+                              input(type='hidden', name='emojiId', value=`${String(emojiItem._id)}`)
+                              button(type="submit").settings__RoomModRemove
+                                i.fa.fa-remove
+
+

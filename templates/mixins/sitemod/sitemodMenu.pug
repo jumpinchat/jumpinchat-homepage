@@ -1,0 +1,8 @@
+mixin sitemodMenu(page)
+  ul.settings__Menu
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/sitemod/conduct",
+        class={ active: page === 'conduct' }) Code of Conduct
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/sitemod/reports",
+        class={ active: page === 'reports' }) Report list

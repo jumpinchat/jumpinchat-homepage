@@ -1,0 +1,123 @@
+.header {
+  float: left;
+  width: 100%;
+  padding: 1.6rem 0;
+  background: {
+    color: $color-blue-02;
+  }
+  line-height: 40px;
+
+  @media screen and (min-width: $bp-tablet) {
+    position: relative;
+  }
+
+  &__Title {
+    margin: 0 0 1.6rem;
+
+    padding: 50px 0 0;
+
+    background: {
+      image: url('/images/logo.svg');
+      repeat: no-repeat;
+      size: 50px;
+      position: center top;
+    }
+
+    @media screen and (min-width: $bp-tablet) {
+      padding: 0 0 0 50px;
+      background-position: left center;
+    }
+
+    font: {
+      size: 4.2rem;
+      weight: 300;
+    }
+
+    color: $color-white;
+    text-align: center;
+
+    a {
+      text-decoration: none;
+      &:visited,
+      &:hover {
+        color: inherit;
+      }
+    }
+
+    @media screen and (min-width: $bp-tablet) {
+      float: left;
+      margin: 0;
+      font: {
+        size: 2.4rem;
+      }
+
+      text-align: left;
+    }
+  }
+
+  &__Nav {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    @media screen and (min-width: $bp-tablet) {
+      display: block;
+      float: right;
+      text-align: inherit;
+    }
+  }
+
+  &__NavItem {
+    text-align: center;
+    & + & {
+      margin: {
+        top: 0.5em;
+        left: 0;
+      }
+    }
+
+    @media screen and (min-width: $bp-tablet) {
+      & + & {
+        margin: {
+          left: 1em;
+          top: 0;
+        }
+      }
+    }
+  }
+
+  &__ProfileDropdownTrigger {
+    min-width: 5em;
+    line-height: 1;
+  }
+
+  &__ProfileDropdown {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    min-width: 125px;
+    margin: 0 10px;
+    background-color: $color-white;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  &__ProfileDropdownItem {
+    display: block;
+    padding: 0.45em 1em;
+    color: $color-black-03;
+    text-decoration: none;
+    text-align: center;
+    line-height: 1;
+
+    &:hover {
+      color: $color-black-01;
+      background-color: $color-black-09;
+    }
+
+    & + & {
+      border-top: 1px solid $color-black-08;
+    }
+  }
+}

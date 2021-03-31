@@ -1,0 +1,108 @@
+extends ../../layouts/default
+include ../../mixins/modal
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header
+            | Messages&nbsp;
+            i.fa.fa-angle-right
+            | &nbsp;
+            a(href='/messages') Inbox
+            | &nbsp;
+            i.fa.fa-angle-right
+            | &nbsp;#{conversation.participant.username}
+
+
+
+        section.form__Segment.profile__Container
+          if conversation.messages.length === 0
+            span.text--sub No messages yet
+          if conversation.count > conversation.messages.length
+            div.messages__LoadMoreContainer
+              a(href=`?page=${Number(page) + 1}`).button.button--text-black Load more
+          each message, index in conversation.messages
+            div.messages__Wrapper(
+              class=message.recipient === conversation.participant._id
+                ? 'messages__Wrapper--me'
+                : 'messages__Wrapper--them',
+              id=index === conversation.messages.length - 1 ? 'latest' : null
+              )
+              div.messages__Message(
+                class=message.recipient === conversation.participant._id && 'messages__Message--me'
+              )
+                if message.sender === String(conversation.participant._id)
+                  a(href=`/profile/${conversation.participant.username}`).messages__AvatarWrapper
+                    img(src=`https://s3.amazonaws.com/jic-uploads/${conversation.participant.profile.pic}`).messages__Avatar
+                div.messages__MessageContent
+                  header.messages__Header
+                    if message.sender === String(conversation.participant._id)
+                      a(href=`/profile/${conversation.participant.username}`).messages__HeaderUsername= conversation.participant.username
+                  div.messages__MessageBody!= message.message
+                  footer.messages__Footer
+                    time.convertDate= message.createdAt
+              div.messages__Actions
+                if message.sender === conversation.participant._id
+                  a(href=`?report=${message._id}`).messages__Action
+                    span.messages__ActionLabel Report
+
+        if !conversation.participant.attrs.meta
+          section.profile__Container.profile__Container--right
+            div.form__InputContainer.form__InputContainer--inline
+              form(method="post")
+                input(type='hidden', name='action', value='archive')
+                button.button.button--red(type="submit", title="Archive conversation")
+                  i.fa.fa-archive
+                  | &nbsp;
+                  span Archive conversation
+              form(method="post")
+                input(type='hidden', name='action', value='ignore')
+                button.button.button--blue(type="submit", title=userIgnored ? "Unignore user" : "Ignore user")
+                  if userIgnored
+                    i.fas.fa-comment-alt
+                  else
+                    i.fas.fa-comment-alt-slash
+                  | &nbsp;
+                  span=userIgnored ? "Unignore user" : "Ignore user"
+
+          section.form__Segment.profile__Container
+            form(method="post").form__Segment
+              h2.form__Header Compose message
+              input(type='hidden', name='action', value='send')
+
+              .form__InputContainer
+                label.form__Label(for="message") Compose your message (You can use <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">Markdown syntax</a>)
+                textarea.form__Input.register__FormInput(name="message", rows="5")
+
+              .form__InputContainer
+                button.button.button--blue(type="submit", onClick="this.form.submit(); this.disabled=true;") Send
+        else
+          section.form__Segment.profile__Container
+            p.text--sub I'm a bot user, you can not send messages to me
+
+
+
+  if report
+    div.modal.open(tabindex="-1", role="dialog")
+      .modal__Window(tabindex="-1")
+        h1.modal__Header Report message
+        form(method="post")
+          input(type='hidden', name='action', value='report')
+          .modal__Body
+            div.form__InputContainer
+              select.form__Input.register__FormInput(id="reason", name="reason")
+                option(value="", selected=true, disabled=true) Select a reason
+                each reason, key in messageReportReasons
+                  option(value=key)= reason
+
+          .modal__Footer
+            a(href=`/messages/${conversation.participant.username}`, type="button").modal-btn-close.button.modal__Action Cancel
+            button.button.button--blue.modal__Action(type="submit") Send
+

@@ -1,0 +1,114 @@
+extends ../layouts/default
+include ../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> user detail <i class="fa fa-angle-right"></i> #{account.username}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h3 User details
+              .admin__InfoList
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Username
+                  .admin__InfoListItemValue
+                    a(href=`/profile/${account.username}`, target="blank")= account.username
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Date Joined
+                  .admin__InfoListItemValue
+                    time.convertDate(datetime=account.attrs.join_date)= account.attrs.join_date
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Date last active
+                  .admin__InfoListItemValue
+                    time.convertDate(datetime=account.attrs.last_active)= account.attrs.last_active
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Email address
+                  .admin__InfoListItemValue= account.auth.email
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Email verified
+                  .admin__InfoListItemValue= account.auth.email_is_verified
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Age verified
+                  .admin__InfoListItemValue= account.attrs.ageVerified
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Supporter
+                  .admin__InfoListItemValue
+                    span= account.attrs.isSupporter
+                    if account.attrs.isGold
+                      span &nbsp;(gold)
+
+
+              h3 User settings
+              each value, setting in account.settings
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle= setting
+                  .admin__InfoListItemValue= value
+
+
+            .profile__Container
+              h2.form__Header User actions
+              form(method="post")
+                input(type='hidden', name='action', value='addtrophy')
+                h3 Apply trophy
+                .form__InputContainer
+                  .form__InputWrapper
+                    label(for="trophy")
+                    select.form__Input.register__FormInput(id="trophy", name="trophy")
+                      option(value="", selected=true, disabled=true) Select a trophy
+                      each trophy in trophyOptions
+                        option(value=trophy.name)= trophy.title
+                .form__InputContainer
+                  button.button.button--blue(type="submit") Add trophy
+
+              form(method="post")
+                input(type='hidden', name='action', value='siteban')
+                h3 Ban user
+                .form__InputContainer.form__InputContainer--inline
+                  div.form__InputWrapper
+                    label(for="reason").form__Label Reason
+                    select.form__Input.register__FormInput(id="reason", name="reason")
+                      option(value="", selected=true, disabled=true) Select a reason
+                      each reason, key in banReasons
+                        option(value=key)= reason
+                  div.form__InputWrapper
+                    label(for="duration").form__Label Duration
+                    select.form__Input.register__FormInput(id="duration", name="duration")
+                      option(value="24") 24 hours
+                      option(value="48", selected=true) 48 hours
+                      option(value="168") 7 days
+                      option(value="4464") Perma ban
+                .form__InputContainer
+                  span.form__Label Type
+                  .form__RadioContainer
+                    input.form__Input-radio(type="checkbox", id="restrictBroadcast", name="restrictBroadcast")
+                    label(for="restrictBroadcast") Restrict broadcast
+                  .form__RadioContainer
+                    input.form__Input-radio(type="checkbox", id="restrictJoin", name="restrictJoin")
+                    label(for="restrictJoin") Restrict joining rooms
+                .form__InputContainer
+                  button.button.button--red(type="submit") Ban
+
+
+            .profile__Container
+              h2.form__Header Danger zone
+
+              form(method="post")
+                input(type='hidden', name='action', value='remove')
+                input(type='hidden', name='userid', value=account._id)
+                button.button.button--red(type='submit') Remove user

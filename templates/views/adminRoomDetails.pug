@@ -1,0 +1,144 @@
+extends ../layouts/default
+
+include ../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> room detail <i class="fa fa-angle-right"></i> #{room.name}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h3 Room details
+              .admin__InfoList
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Room name
+                  .admin__InfoListItemValue
+                    a(href=`/${room.name}`, target="blank")= room.name
+                if room.attrs.owner
+                  .admin__InfoListItem
+                    .admin__InfoListItemTitle Room owner
+                    .admin__InfoListItemValue
+                      a(href=`/admin/users/${room.attrs.owner}`)= room.name
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Date created
+                  .admin__InfoListItemValue
+                    time.convertDate=room.attrs.created
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Room is public
+                  .admin__InfoListItemValue= room.settings.public
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Password
+                  .admin__InfoListItemValue= !!room.settings.passhash
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Requires registered users
+                  .admin__InfoListItemValue= room.settings.forceUser
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Age restricted
+                  .admin__InfoListItemValue= room.attrs.ageRestricted
+
+            .profile__Container
+              h3 Room actions
+              form(method="post")
+                input(type='hidden', name='action', value='room')
+                .form__InputContainer
+                  span.form__Label Room is active?
+                  .form__RadioContainer
+                    input.form__Input-radio(type="radio", value="true", id="active-yes", name="active", checked=room.attrs.active)
+                    label(for="active-yes") Yes
+
+                  .form__RadioContainer
+                    input.form__Input-radio(type="radio", value="false", id="active-no", name="active", checked=!room.attrs.active)
+                    label(for="active-no") No
+
+                .form__InputContainer
+                  span.form__Label Room is public?
+                  .form__RadioContainer
+                    input.form__Input-radio(type="radio", value="true", id="public-yes", name="public", checked=room.settings.public)
+                    label(for="public-yes") Yes
+
+                  .form__RadioContainer
+                    input.form__Input-radio(type="radio", value="false", id="public-no", name="public", checked=!room.settings.public)
+                    label(for="public-no") No
+
+                .form__InputContainer
+                  button.button.button--blue(type="submit") Update room settings
+                  .form__Messages
+                    if formSuccess
+                      span.text--green.form__Success= formSuccess
+                    if errors
+                      div.text--red.form__Error= errors
+
+
+              h3 Send message to room
+              form(method="post")
+                input(type='hidden', name='action', value='server-message')
+                .form__InputContainer
+                  label(for="message").form__Label message
+                  input.form__Input.register__FormInput(type="text", id="message", name="message")
+
+                  label(for="message-type").form__Label type
+                  select.form__Input.register__FormInput(type="text", id="message-type", name="message-type")
+                    option(value="INFO") Info
+                    option(value="SUCCESS") Success
+                    option(value="ALERT") Alert
+                    option(value="WARNING") Warning
+
+                .form__InputContainer
+                  button.button.button--blue(type="submit") Send
+                  .form__Messages
+                    if messageError
+                      div.text--red.form__Error= messageError
+                    if messageSuccess
+                      span.text--green.form__Success= messageSuccess
+
+              h3 Room Moderation
+              form(method="post")
+                input(type='hidden', name='action', value='close')
+                .form__InputContainer
+                  label(for="reason").form__Label Reason
+                  select.form__Input.register__FormInput(id="reason", name="reason")
+                    option(value="", selected=true, disabled=true) Select a reason
+                    each reason, key in closeReasons
+                      option(value=key)= reason
+                .form__InputContainer
+                  button.button.button--red(type="submit") Close room
+
+
+            .profile__Container
+              h3 Room users
+
+              table.admin__RoomList
+                thead
+                  tr
+                    th handle
+                    th username
+                    th is broadcasting
+                    th is moderator
+                tbody
+                each user in room.users
+                  tr.admin__RoomListItem
+                    td.admin__RoomListItemValue
+                      a(href=`/admin/rooms/${room.name}/${user._id}`)= user.handle
+                    td.admin__RoomListItemValue
+                      if user.user_id
+                        a(href=`/admin/users/${user.user_id}`)= user.username
+                      else
+                        span -
+                    td.admin__RoomListItemValue= user.isBroadcasting
+                    td.admin__RoomListItemValue= !!user.operator_id
+

@@ -1,0 +1,20 @@
+mixin room(room)
+  a.room__Item(href="/" + room.name)
+    .room__Header
+      if room.settings && room.settings.display
+        .room__Cam.room__Cam--full(style={'background-image': 'url(' + 'https://s3.amazonaws.com/jic-uploads/' + room.settings.display + ')'})
+      else
+        .room__Cam(style={'background-color': room.color})
+    .room__Details
+      header.room__DetailsHeader
+        h3.room__Name(title=room.name) #{room.name}
+        .room__Counts
+          .room__Broadcasters(title="Current broadcasters")
+            i.fas.fa-video
+            span  #{room.attrs.broadcastingUsers}
+          .room__Viewers(title="Users in room")
+            i.fas.fa-eye
+            span  #{room.users.length}
+      if room.settings.description
+        footer.room__DetailsFooter(title=room.settings.description)
+          span.room__DetailsDescription= room.settings.description

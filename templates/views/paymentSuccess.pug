@@ -1,0 +1,23 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    .error
+      .error__Icon
+        svg(width='128px' height='128px' viewbox='0 0 84 84' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink')
+          path.checkmark(stroke-linecap='round' stroke-linejoin='round' d='M23.375 42.5488281 36.8840688 56.0578969 64.891932 28.0500338' stroke-width='6' stroke='#8AB23E' fill='none')
+
+      h1.error__Title Payment successful
+      p.error__Lead
+        | Thanks for supporting the site!
+
+      p
+        a.button.button--blue(href="/") Go back
+
+block js
+  script.
+    (function() {
+      ga('send', 'event', 'Supporter', 'Success', '#{product.id}', #{product.value / 100});
+    })()
+

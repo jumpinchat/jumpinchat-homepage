@@ -1,0 +1,77 @@
+extends ../layouts/default
+include ../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> room user detail <i class="fa fa-angle-right"></i> <a href="/admin/rooms/#{room.name}"/>#{room.name}</a> <i class="fa fa-angle-right"></i> #{roomUser._id}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+
+          .multicol__Main
+            .profile__Container
+              h3 User details
+              .admin__InfoList
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Handle
+                  .admin__InfoListItemValue= roomUser.handle
+                if roomUser.user_id
+                  .admin__InfoListItem
+                    .admin__InfoListItemTitle Username
+                    .admin__InfoListItemValue
+                      a(href=`/admin/users/${roomUser.user_id}`)= roomUser.username
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Room name
+                  .admin__InfoListItemValue
+                    a(href=`/${room.name}`, target="blank")= room.name
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Joined at
+                  .admin__InfoListItemValue
+                    time.convertDate=roomUser.createdAt.toISOString()
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Is broadcasting
+                  .admin__InfoListItemValue= roomUser.isBroadcasting
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Is moderator
+                  .admin__InfoListItemValue= isMod
+
+            .profile__Container
+              h3 Moderation
+              form(method="post")
+                input(type='hidden', name='action', value='siteban')
+                .form__InputContainer.form__InputContainer--inline
+                  div.form__InputWrapper
+                    label(for="reason").form__Label Reason
+                    select.form__Input.register__FormInput(id="reason", name="reason")
+                      option(value="", selected=true, disabled=true) Select a reason
+                      each reason, key in banReasons
+                        option(value=key)= reason
+                  div.form__InputWrapper
+                    label(for="duration").form__Label Duration
+                    select.form__Input.register__FormInput(id="duration", name="duration")
+                      option(value="24") 24 hours
+                      option(value="48", selected=true) 48 hours
+                      option(value="168") 7 days
+                      option(value="4464") Perma ban
+                .form__InputContainer
+                  span.form__Label Type
+                  .form__RadioContainer
+                    input.form__Input-radio(type="checkbox", id="restrictBroadcast", name="restrictBroadcast")
+                    label(for="restrictBroadcast") Restrict broadcast
+                  .form__RadioContainer
+                    input.form__Input-radio(type="checkbox", id="restrictJoin", name="restrictJoin")
+                    label(for="restrictJoin") Restrict joining rooms
+                .form__InputContainer
+                  button.button.button--red(type="submit") Ban
+

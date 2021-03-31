@@ -1,0 +1,24 @@
+.pill {
+  font: {
+    size: 0.85em;
+    weight: 700;
+  }
+  background-color: $color-black-05;
+  padding: 0 0.5em;
+  border-radius: 1em;
+
+  &--red {
+    background-color: $color-red-02;
+    color: $color-white;
+  }
+
+  &--blue {
+    background-color: $color-blue-02;
+    color: $color-white;
+  }
+
+  &--white {
+    background-color: $color-white;
+    color: $color-blue-02;
+  }
+}

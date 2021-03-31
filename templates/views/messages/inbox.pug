@@ -1,0 +1,59 @@
+extends ../../layouts/default
+include ../../mixins/pagination
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header
+            | Messages&nbsp;
+            i.fa.fa-angle-right
+            | &nbsp;Inbox
+
+
+
+        section.profile__Container.profile__Container--right
+          div.form__InputContainer.form__InputContainer--inline
+            form(method="post")
+              input(type='hidden', name='action', value='read')
+              button.button.button--black-transparent(type="submit", title="Mark all messages as read")
+                i.fa.fa-envelope-open
+                | &nbsp;
+                span Mark all as read
+
+        section.messages__InboxList
+          if conversations.length === 0
+            span.rooms__Empty No conversations
+          else
+            each conversation in conversations
+              if conversation.participant
+                a(href=`/messages/${conversation.participant.username}#latest`).messages__Conversation
+                  div.messages__ConversationHeader
+                    div.messages__ConversationAvatarWrapper
+                      img(src=`https://s3.amazonaws.com/jic-uploads/${conversation.participant.profile.pic}`).messages__ConversationAvatar
+                      if conversation.unread > 0
+                        span.pill.pill--blue.messages__ConversationUnread= conversation.unread
+                    span.messages__ConversationUser= conversation.participant.username
+                      if conversation.participant.attrs.userLevel >= 20
+                        span.text--sub &nbsp;(Site mod)
+                  footer.messages__ConversationFooter
+                    time.convertDate= conversation.latestMessage
+              else
+                div.messages__Conversation
+                  div.messages__ConversationHeader
+                    div.messages__ConversationAvatarWrapper
+                      img(src=`https://s3.amazonaws.com/jic-uploads/`).messages__ConversationAvatar
+                      if conversation.unread > 0
+                        span.pill.pill--blue.messages__ConversationUnread= conversation.unread
+                    span.messages__ConversationUser deleted user
+                  footer.messages__ConversationFooter
+                    time.convertDate= conversation.latestMessage
+
+        if pagination
+          +pagination(pagination)

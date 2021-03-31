@@ -1,0 +1,27 @@
+include ../pagination
+
+mixin adminRoomlist(rooms)
+  .profile__Container
+    h2.form__Header Active rooms
+
+    table.admin__RoomList
+      thead
+        tr
+          th name
+          th viewers
+          th broadcasters
+          th public
+          th age restricted
+      tbody
+      each room in rooms
+        tr.admin__RoomListItem
+          td.admin__RoomListItemValue
+            a(href=`/admin/rooms/${room.name}`)= room.name
+          td.admin__RoomListItemValue= room.users.length
+          td.admin__RoomListItemValue= room.users.filter(u => u.isBroadcasting).length
+          td.admin__RoomListItemValue= room.settings.public ? 'yes' : 'no'
+          td.admin__RoomListItemValue= room.attrs.ageRestricted ? 'yes' : 'no'
+
+    if pagination
+      +pagination(pagination)
+

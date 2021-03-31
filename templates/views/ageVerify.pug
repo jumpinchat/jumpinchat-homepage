@@ -1,0 +1,82 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+    section.full-width.register
+      .wrapper
+        header.register__Header
+          h2.page-header Age verification
+        div.form__Segment.profile__Container
+          form(method='post', enctype='multipart/form-data')
+
+            input(type='hidden', name='action', value='upload')
+
+            if !user.auth.email_is_verified
+              p.text--red
+                | You must have a <a href="/settings/account">verified email</a> before
+                | you can verify your age
+            p
+              | For more information on age verification, see the <a href="/help/ageverify">help section</a>.
+            p
+              | Be sure to also read up on the restrictions around broadcasting in age restricted rooms in the <a href="/terms#age-restriction">terms and conditions</a>
+
+            .form__InputContainer
+              div.ageVerify__Upload
+                label.form__Label(for="ageRegistrationId") Scan or clear picture of ID
+                input.form__Input.register__FormInput(
+                  type="file",
+                  name="id",
+                  id="ageRegistrationId",
+                  disabled=!user.auth.email_is_verified
+                )
+              aside.ageVerify__Info
+                p
+                  | Must be a valid government issued photo ID.
+                  | It can be a photo or a scan, but needs to have the photo,
+                  | date of birth and expiry date clearly visible. Other information
+                  | can be obscured at your discression.
+                p
+                  | Allowed types of identification are any of the following:
+
+                ul
+                  li Passport
+                  li Driver's license
+                  li EU national ID card
+
+
+
+            .form__InputContainer
+              div.ageVerify__Upload
+                label.form__Label(for="ageRegistrationSelfie") Selfie with ID visible
+                input.form__Input.register__FormInput(
+                  type="file",
+                  name="selfie",
+                  id="ageRegistrationSelfie",
+                  disabled=!user.auth.email_is_verified
+                )
+              aside.ageVerify__Info
+                p
+                  | Post a photo with the same ID selected previously, but
+                  | next to your face. This is in order to verify that the ID
+                  | in fact belongs to you.
+                p
+                  | Make sure that the ID is in focus and clearly visible.
+
+
+            .form__InputContainer
+              button.button.button--blue.disableOnClick(type="submit", disabled=!user.auth.email_is_verified || inProgress) Send
+              if errors
+                div.text--red #{error}
+              if success
+                div.text--green #{success}
+
+            article.ageVerify__Description
+
+
+

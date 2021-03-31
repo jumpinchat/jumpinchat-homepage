@@ -1,0 +1,127 @@
+include ../upload
+include ../modal
+
+mixin settingsRoom(room)
+  - var forceUser = room.attrs.ageRestricted || room.settings.requireVerifiedEmail || room.settings.minAccountAge !== null
+  section.form__Segment.profile__Container
+    h2.form__Header Room options
+    form(method="post")
+      input(type='hidden', name='action', value='room')
+      .form__InputContainer
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="public", name="public", checked=room.settings.public, disabled=!user.auth.email_is_verified || room.attrs.ageRestricted)
+          label(for="public") Show room in public directory
+
+        .form__HintText
+          if !user.auth.email_is_verified
+            span.text--sub You must <a href="/settings/account">verifiy your email</a> before your room can appear on the room list
+          if room.attrs.ageRestricted
+            span.text--sub Age restricted rooms can not be listed publically
+
+      .form__InputContainer
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="forcePtt", name="forcePtt", checked=room.settings.forcePtt)
+          label(for="forcePtt") Force Push-to-Talk
+
+      .form__InputContainer
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="forceUser", name="forceUser", checked=room.settings.forceUser, disabled=forceUser)
+          label(for="forceUser") Only allow registered users
+          if forceUser
+            input(type="hidden", name="forceUser", value=room.settings.forceUser ? "true" : "false")
+
+
+      .form__InputContainer
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="require-verified", name="requireVerifiedEmail", checked=room.settings.requireVerifiedEmail)
+          label(for="require-verified") Require users to have verified emails to join
+
+        .form__HintText
+          if room.attrs.ageRestricted
+            span.text--sub Age restricted rooms do not allow guests
+
+      .form__InputContainer
+        label.form__Label(for="minAccountAge") Restrict by account age
+        select.form__Input.register__FormInput(name="minAccountAge")
+          option(value="", selected=!room.settings.minAccountAge) Disabled
+          option(value=1000 * 60 * 5, selected=room.settings.minAccountAge === 1000 * 60 * 5) 5 minutes
+          option(value=1000 * 60 * 30, selected=room.settings.minAccountAge === 1000 * 60 * 30) 30 minutes
+          option(value=1000 * 60 * 60 * 6, selected=room.settings.minAccountAge === 1000 * 60 * 60 * 6) 6 hours
+          option(value=1000 * 60 * 60 * 24, selected=room.settings.minAccountAge === 1000 * 60 * 60 * 24) 24 hours
+          option(value=1000 * 60 * 60 * 24 * 7 , selected=room.settings.minAccountAge === 1000 * 60 * 60 * 24 * 7 ) 1 week
+        .form__HintText
+          span.text--sub Enabling this option will turn on user account restriction
+
+
+      .form__InputContainer
+        label.form__Label(for="description") Room description (140 characters max)
+        input.form__Input.register__FormInput(type="text", value=room.settings.description, id="description", name="description", maxlength="140")
+
+      .form__InputContainer
+        button.button.button--blue(type="submit") Update room settings
+        .form__Messages
+          if error
+            div.text--red.form__Error= error
+
+  section.form__Segment.profile__Container
+    h2.form__Header Room password
+    form(method="post")
+      input(type='hidden', name='action', value='roompass')
+      .form__InputContainer
+        label(for="password").form__Label Password (enter a blank value for no password)
+        input.form__Input.register__FormInput(type="password", id="password", name="password", value=room.settings.passhash ? 'nothing to see here' : '')
+      .form__InputContainer
+        button.button.button--blue(type="submit") Save
+        .form__Messages
+          if error
+            div.text--red.form__Error= error
+
+  +upload(
+    'roomdisplay',
+    '/api/rooms/' + room.name + '/uploadImage',
+    room.settings.display
+      ? 'https://s3.amazonaws.com/jic-uploads/' + room.settings.display
+      : null
+  )
+
+  section.form__Segment.profile__Container.profile__Container--danger
+      h2.form__Header Danger zone
+      .form__InputContainer
+        button.modal-trigger.button.button--red(
+          type="button",
+          data-target="set-room-age-restricted",
+          disabled=!user.auth.email_is_verified || room.attrs.ageRestricted
+        ) Set room as age restricted
+        .form__Messages
+        if !user.auth.email_is_verified
+          span.text--red A verified email address is required
+          br
+        if room.attrs.ageRestricted
+          span.text--green Room is already age restricted
+          br
+
+  +modal('set-room-age-restricted', 'Set room as age restricted')
+    form(method="post")
+      input(type='hidden', name='action', value='setAgeRestricted')
+      p
+        | This will <strong>permanently</strong> set your room as
+        | <em>age restricted</em>. It will no longer appear on
+        | the public directory and will require users to be age verified
+        | in order to broadcast.
+
+      p
+        | You can find more information in the
+        | <a href="/help/room#age-restricted">help section</a>
+
+      p
+        | This action is <strong>irreversable</strong>, are you
+        | sure you wish to continue?
+
+      .form__InputContainer
+        label(for="ageVerifyPassword").form__Label Enter account password to continue
+        input.form__Input.register__FormInput(type="password", id="ageVerifyPassword", name="password", required=true)
+
+      .modal__Footer
+        button.modal-btn-close.button.modal__Action(type="button") Cancel
+        button#delete-account-confirm.button.button--red.modal__Action(type="submit") Continue
+

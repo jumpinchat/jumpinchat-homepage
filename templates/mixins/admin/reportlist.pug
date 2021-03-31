@@ -1,0 +1,41 @@
+include ../pagination
+mixin adminReportList(reports)
+  .profile__Container
+    h2.form__Header Active reports
+
+    table.admin__RoomList
+      thead
+        tr
+          th id
+          th timestamp
+          th room
+          th reporter
+          th target
+          th reason
+      tbody
+      each report in reports
+        tr.admin__RoomListItem
+          td.admin__RoomListItemValue
+            a(href=`/admin/reports/${report._id}`)= report._id
+
+          td.admin__RoomListItemValue= report.createdAt
+          td.admin__RoomListItemValue
+            a(href=`/admin/rooms/${report.room.name}`)= report.room.name
+
+          td.admin__RoomListItemValue
+            if report.reporter.userId
+              a(href=`/admin/users/${report.reporter.userId}`)= report.reporter.handle
+            else
+              span= report.reporter.handle
+
+          td.admin__RoomListItemValue
+            if report.target.userId
+              a(href=`/admin/users/${report.target.userId}`)= report.target.handle
+            else
+              span= report.target.handle
+
+          td.admin__RoomListItemValue= report.reason
+
+    if pagination
+      +pagination(pagination)
+

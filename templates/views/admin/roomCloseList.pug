@@ -1,0 +1,36 @@
+extends ../../layouts/default
+include ../../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> Room close
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h2.form__Header Room closures
+
+              table.admin__RoomList
+                thead
+                  tr
+                    th ID
+                    th Reason
+                    th User count
+                    th Created
+                    th Expires
+                tbody
+                each item in roomCloses
+                  tr.admin__RoomListItem
+                    td.admin__RoomListItemValue
+                      a(href=`/admin/roomclosures/${item._id}`)= item._id
+                    td.admin__RoomListItemValue= item.reason
+                    td.admin__RoomListItemValue= item.users.length
+                    td.admin__RoomListItemValue
+                      time.convertDate= item.createdAt.toISOString()
+                    td.admin__RoomListItemValue
+                      time.convertDate= item.expiresAt.toISOString()

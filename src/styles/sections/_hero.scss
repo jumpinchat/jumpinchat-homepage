@@ -1,0 +1,137 @@
+
+.hero {
+  padding: 1.6rem 0;
+
+  .header {
+    background: transparent;
+  }
+
+  @media screen and (min-width: $bp-tablet) {
+    position: relative;
+    height: 500px;
+    padding: {
+      top: 0;
+      bottom: 3.2rem;
+    }
+
+    background: url('../images/hero.jpg') left top;
+    background-size: cover;
+  }
+
+  @media screen and (min-width: $bp-desktop) {
+    height: 700px;
+    background-position-x: center;
+    background-position-y: center;
+  }
+
+
+
+  &__Form {
+    width: 280px;
+    margin: 6.4rem auto 0;
+
+    @media screen and (min-width: $bp-tablet) {
+      position: absolute;
+      bottom: 12.8rem;
+      left: 50%;
+
+      display: flex;
+      width: 500px;
+      padding: {
+        top: 12.8rem;
+      };
+
+      margin: 0 0 0 -250px;
+    }
+  }
+
+  &__FormInput {
+    width: 100%;
+    height: 3.2rem;
+    margin: {
+      bottom: 0.8rem;
+    }
+
+    padding: {
+      right: 1em;
+      left: 1em;
+    }
+
+    border: 1px solid $color-black-05;
+
+    box-sizing: border-box;
+    border-right: none;
+    border-radius: 1.6rem;
+    outline: none;
+
+    &:focus {
+      border-color: $color-black-01;
+    }
+
+    @media screen and (min-width: $bp-tablet) {
+      flex-grow: 1;
+      height: 4.2rem;
+      margin: {
+        bottom: 0;
+      }
+
+      border-radius: 2.1rem 0 0 2.1rem;
+    }
+  }
+
+  &__FormButton {
+    display: block;
+    width: 90%;
+    height: inherit;
+    margin: 0 auto;
+
+    @media screen and (min-width: $bp-tablet) {
+      flex-shrink: 0;
+      width: auto;
+      padding: {
+        right: 1em;
+        left: 0.7em;
+      }
+
+      border-radius: 0 2.1rem 2.1rem 0;
+      box-shadow: none;
+    }
+  }
+
+  &__Message {
+    padding: {
+      top: 32px;
+    }
+    text-align: center;
+    color: $color-white;
+
+    @media screen and (min-width: $bp-tablet) {
+      padding: {
+        top: 19rem;
+      }
+    }
+
+    @media screen and (min-width: 1140px) {
+      padding: {
+        top: 25.6rem;
+      }
+    }
+  }
+
+  &__MessagePrimary {
+    margin: 0;
+
+    @media screen and (min-width: $bp-tablet) {
+      font: {
+        size: 4.2rem;
+      }
+    }
+  }
+
+  &__MessageSecondary {
+    @media screen and (min-width: $bp-tablet) {
+      opacity: 0.8;
+    }
+  }
+}
+

@@ -1,0 +1,8 @@
+mixin roomSettingsMenu(room, page)
+  ul.settings__Menu
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href=`/${room}/settings/info`,
+        class={ active: page === 'info' }) Room Info
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href=`/${room}/settings/emoji`,
+        class={ active: page === 'emoji' }) Emoji

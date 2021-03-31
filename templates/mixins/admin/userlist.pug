@@ -1,0 +1,35 @@
+include ../pagination
+
+mixin adminUserlist(users)
+  .profile__Container
+    h2.form__Header Users
+
+    form(method="post")
+      input(type='hidden', name='action', value='search-users')
+      .form__InputContainer.form__InputInline
+        label(for="message").form__Label search by username
+        input.form__Input.register__FormInput(type="text", id="search", name="search")
+        button.button.button-blue(type="submit") search
+
+    table.admin__RoomList
+      thead
+        tr
+          th Username
+          th Verified
+          th Receive updates
+          th Age verified
+          th Join date
+      tbody
+      each user in users
+        tr.admin__RoomListItem
+          td.admin__RoomListItemValue
+            a(href=`/admin/users/${user._id}`)= user.username
+          td.admin__RoomListItemValue
+            span(class=user.auth.email_is_verified ? 'text--green' : 'text--red')= user.auth.email_is_verified
+          td.admin__RoomListItemValue
+            span(class=user.settings.receiveUpdates ? 'text--green' : 'text--red')= user.settings.receiveUpdates
+          td.admin__RoomListItemValue
+            span(class=user.attrs.ageVerified ? 'text--green' : 'text--red')= user.attrs.ageVerified
+          td.admin__RoomListItemValue= user.attrs.join_date
+
+    +pagination(pagination)

@@ -1,0 +1,45 @@
+extends ../../layouts/default
+include ../../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> Site mods <i class="fa fa-angle-right"></i> Activity
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h2.form__Header Site mod activity
+
+              table.admin__RoomList
+                thead
+                  tr
+                    th Date
+                    th User
+                    th Action
+                    th
+                tbody
+                each item in activity.activity
+                  tr.admin__RoomListItem
+                    td.admin__RoomListItemValue
+                      time.convertDate= item.createdAt
+                    td.admin__RoomListItemValue
+                      a(href=`/admin/users/${item.user._id}`)= item.user.username
+                    td.admin__RoomListItemValue
+                      span= item.action.type
+                    td.admin__RoomListItemValue
+                      case item.action.type
+                        when 'Banlist'
+                          a(href=`/admin/banlist/${item.action.id}`)= item.action.id
+                        when 'RoomClose'
+                          a(href=`/admin/roomclosures/${item.action.id}`)= item.action.id
+                        when 'Report'
+                          a(href=`/admin/reports/${item.action.id}`)= item.action.id

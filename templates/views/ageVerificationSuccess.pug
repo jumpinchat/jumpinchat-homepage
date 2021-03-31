@@ -1,0 +1,14 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    .error
+      h1.error__Title Success
+      p.error__Lead
+        | Your verification request was submitted successfully. You will
+        | receive an email updating you when the request status changes.
+
+      p
+        a.button.button--blue(href="/") Go back
+

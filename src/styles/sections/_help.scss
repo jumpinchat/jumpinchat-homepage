@@ -1,0 +1,35 @@
+.help {
+  &__ImageList {
+
+  }
+
+  &__ImageListItem {
+    display: flex;
+
+    & + & {
+      margin: {
+        top: 3.2rem;
+      }
+    }
+  }
+
+  &__ImageListItemImageContainer {
+    flex-shrink: 0;
+  }
+
+  &__ImageListItemImage {
+    width: 64px;
+    height: auto;
+  }
+
+  &__ImageListItemBody {
+    margin: {
+      left: 1.6rem;
+    }
+  }
+
+  &__ImageListItemTitle {
+    display: inline-block;
+    margin: 0;
+  }
+}

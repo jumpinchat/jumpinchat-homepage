@@ -1,0 +1,84 @@
+mixin supportTable(user)
+  div.support__Wrapper
+    article.support__Product
+      div.support__ProductDetails
+        h3.support__ProductHeader One-time
+
+        ul.support__ProductFeatures
+          li.support__ProductFeature Heart user icon forever
+          li.support__ProductFeature Site supporter trophy on profile
+          li.support__ProductFeature Subscriber bonuses for 14 days (per $3)
+
+      if user
+        div.support__ActionGroup
+          form(method="post").form__InputInline.support__AmountForm
+            input(type="hidden", value='custom', name='action')
+            div.form__InputContainer
+              label.form__Label(for='amount') Custom amount
+              input.form__Input.form__Input--inline.register__FormInput#amount(type='text', name='amount', required='', placeholder="Amount in USD")
+
+            div.form__InputContainer
+              button(type="submit").button.button--red Choose amount
+          a.button.button--red.support__ProductPayButton(href='/support/payment?productId=onetime&amount=300')
+            | Pay $3 once
+      else
+        footer
+          span.support__ProductPayButton.support__ProductPayButton--label
+              | Pay $3 once
+          p
+            a(href='/login') login
+            | &nbsp;or&nbsp;
+            a(href='/register') register
+            | &nbsp;to upgade your account
+
+    article.support__Product
+      div.support__ProductDetails
+        h3.support__ProductHeader Monthly
+
+        ul.support__ProductFeatures
+          li.support__ProductFeature Heart user icon forever
+          li.support__ProductFeature Site supporter trophy on profile
+          li.support__ProductFeature Gold Site Supporter trophy on profile
+          li.support__ProductFeature Stream up to <strong>1080p</strong>
+          li.support__ProductFeature Custom user list icon
+          li.support__ProductFeature Broadcasts don't timeout due to inactivity
+          li.support__ProductFeature Add custom emoji for your room
+
+      if user
+        a.button.button--red.support__ProductPayButton(href='/support/payment?productId=monthly')
+          | $5/Month
+      else
+        footer
+          span.support__ProductPayButton.support__ProductPayButton--label
+            | $5/Month
+          p
+            a(href='/login') login
+            | &nbsp;or&nbsp;
+            a(href='/register') register
+            | &nbsp;to upgade your account
+
+    article.support__Product
+      div.support__ProductDetails
+        h3.support__ProductHeader Annually
+
+        ul.support__ProductFeatures
+          li.support__ProductFeature Heart user icon forever
+          li.support__ProductFeature Site supporter trophy on profile
+          li.support__ProductFeature Gold Site Supporter trophy on profile
+          li.support__ProductFeature Stream up to <strong>1080p</strong>
+          li.support__ProductFeature Custom user list icon
+          li.support__ProductFeature Broadcasts don't timeout due to inactivity
+          li.support__ProductFeature Add custom emoji for your room
+
+      if user
+        a.button.button--red.support__ProductPayButton(href='/support/payment?productId=annual')
+          | $50/Year (save $10)
+      else
+        footer
+          span.support__ProductPayButton.support__ProductPayButton--label
+            | $50/Year (save $10)
+          p
+            a(href='/login') login
+            | &nbsp;or&nbsp;
+            a(href='/register') register
+            | &nbsp;to upgade your account

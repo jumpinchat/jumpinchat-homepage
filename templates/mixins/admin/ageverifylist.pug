@@ -1,0 +1,25 @@
+mixin adminAgeVerifyList(requests)
+  .profile__Container
+    h2.form__Header Age verification requests
+
+    table.admin__RoomList
+      thead
+        tr
+          th id
+          th timestamp
+          th user
+          th status
+
+      tbody
+      each request in requests
+        tr.admin__RoomListItem
+          td.admin__RoomListItemValue
+            a(href=`/admin/ageverify/${request._id}`)= request._id
+
+          td.admin__RoomListItemValue
+            time.convertDate= request.createdAt
+
+          td.admin__RoomListItemValue
+            a(href=`/admin/users/${request.user}`)= request.user
+          td.admin__RoomListItemValue
+            span(class=`text--${statusColors[request.status]}`)= request.status

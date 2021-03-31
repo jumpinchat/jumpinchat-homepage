@@ -1,0 +1,63 @@
+extends ../layouts/default
+include ../mixins/help/cams
+include ../mixins/help/chat
+include ../mixins/help/mod
+include ../mixins/help/room
+include ../mixins/help/trophies
+include ../mixins/help/reporting
+include ../mixins/help/safety
+include ../mixins/help/ageVerify
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Help <i class="fa fa-angle-right"></i> #{page}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            ul.settings__Menu
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/help/cams",
+                  class={ active: page === 'cams' }) Cams and Broadcasting
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/help/chat",
+                  class={ active: page === 'chat' }) Chat
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/help/room",
+                  class={ active: page === 'room' }) Rooms
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/help/mod",
+                  class={ active: page === 'mod' }) Moderation
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/help/reporting",
+                  class={ active: page === 'reporting' }) Reporting
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/help/trophies",
+                  class={ active: page === 'trophies' }) Trophies
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/help/safety",
+                  class={ active: page === 'safety' }) Safety
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/help/ageverify",
+                  class={ active: page === 'ageverify' }) Age verification
+          .multicol__Main
+            case page
+              when 'room'
+                +helpRoom()
+              when 'cams'
+                +helpCams()
+              when 'chat'
+                +helpChat()
+              when 'mod'
+                +helpMod()
+              when 'trophies'
+                +helpTrophies()
+              when 'reporting'
+                +helpReporting()
+              when 'safety'
+                +helpSafety()
+              when 'ageverify'
+                +helpAgeVerify()
+

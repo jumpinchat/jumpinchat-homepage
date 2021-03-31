@@ -1,0 +1,54 @@
+extends ../../layouts/default
+
+include ../../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> room close <i class="fa fa-angle-right"></i> #{close._id}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h3 Close details
+              .admin__InfoList
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Room name
+                  .admin__InfoListItemValue= close.name
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Date created
+                  .admin__InfoListItemValue
+                    time.convertDate=close.createdAt
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Expires
+                  .admin__InfoListItemValue
+                    time.convertDate=close.expiresAt
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Reason
+                  .admin__InfoListItemValue= close.reason
+
+            .profile__Container
+              h3 User list
+              table.admin__RoomList
+                thead
+                  tr
+                    th Handle
+                    th User ID
+                    th IP
+                tbody
+                each user in close.users
+                  tr.admin__RoomListItem
+                    td.admin__RoomListItemValue= user.handle
+                    td.admin__RoomListItemValue
+                      if user.userId
+                        a(href=`/admin/users/${user.userId}`)= user.userId
+                      else
+                        span n/a
+                    td.admin__RoomListItemValue= user.ip

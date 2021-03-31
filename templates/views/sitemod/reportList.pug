@@ -1,0 +1,59 @@
+extends ../../layouts/default
+
+include ../../mixins/pagination
+include ../../mixins/sitemod/sitemodMenu
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Sitemod <i class="fa fa-angle-right"></i> reports
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +sitemodMenu(page)
+          .multicol__Main
+            .profile__Container
+              h2.form__Header Active reports
+
+              table.admin__RoomList
+                thead
+                  tr
+                    th
+                    th id
+                    th timestamp
+                    th room
+                    th reporter
+                    th target
+                    th reason
+                tbody
+                each report in reports
+                  tr.admin__RoomListItem
+                    td.admin__RoomListItemValue
+                      if report.resolution && report.resolution.resolved
+                        i.fas.fa-check.text--green
+                    td.admin__RoomListItemValue
+                      a(href=`/sitemod/reports/${report._id}`)= report._id
+
+                    td.admin__RoomListItemValue
+                      time.convertDate(datetime=report.createdAt)= report.createdAt
+                    td.admin__RoomListItemValue
+                      a(href=`/${report.room.name}`)= report.room.name
+
+                    td.admin__RoomListItemValue
+                      if report.reporter.userId
+                        span= report.reporter.handle
+                      else
+                        span= report.reporter.handle
+
+                    td.admin__RoomListItemValue
+                      if report.target.userId
+                        span= report.target.handle
+                      else
+                        span= report.target.handle
+
+                    td.admin__RoomListItemValue= report.reason
+
+              if pagination
+                +pagination(pagination)

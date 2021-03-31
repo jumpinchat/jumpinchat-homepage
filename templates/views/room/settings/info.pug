@@ -1,0 +1,55 @@
+extends ../../../layouts/default
+include ../../../mixins/room/settingsMenu
+
+block content
+  .site-wrapper
+    include ../../../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header #{room.name} <i class="fa fa-angle-right"></i> Settings <i class="fa fa-angle-right"></i> #{page}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +roomSettingsMenu(room.name, page)
+          .multicol__Main
+            section.form__Segment.profile__Container
+              h2.form__Header Room Info
+              .admin__InfoList
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Room name
+                  .admin__InfoListItemValue
+                    a(href=`/${room.name}`, target="blank")= room.name
+                if room.attrs.owner
+                  .admin__InfoListItem
+                    .admin__InfoListItemTitle Room owner
+                    .admin__InfoListItemValue
+                      a(href=`/profile/${roomOwner.username}`).profile__UserSnippet
+                        img.userIconPreview__Icon(src=`https://s3.amazonaws.com/jic-uploads/${roomOwner.profile.pic}`, alt=`${roomOwner.username}`)
+                        span= roomOwner.username
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Description
+                  .admin__InfoListItemValue= room.settings.description || 'no description'
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Topic
+                  .admin__InfoListItemValue
+                    if userIsMod
+                      form(method="post").form__InputInline
+                        input(type='hidden', name='action', value='topic')
+                        div.form__InputContainer.form__InputContainer--inline
+                          input.form__InlineInput(name="topic", type="text", maxlength="140", value=room.settings.topic.text)
+                        div.form__InputContainer
+                          button(type="submit").button.button.button--text-black
+                            i.fas.fa-save
+                    else
+                      span= room.settings.topic.text
+
+                if supportValid
+                  .admin__InfoListItem
+                    .admin__InfoListItemTitle Room support status
+                    .admin__InfoListItemValue
+                      span Expires
+                        time.convertDate= supportExpires

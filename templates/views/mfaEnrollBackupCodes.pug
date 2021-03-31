@@ -1,0 +1,25 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        .register__FormWrapper
+          header.register__Header
+            h2 Here are your backup codes
+            p Use these if you lose access to your mobile device
+            p Make sure to store them safely, you will not be able to see them again
+
+            pre.mfa__BackupCodes
+              each code in codes
+                span= code
+
+            p Each code can only be used once
+
+            .form__InputContainer
+              a.button.button--blue(href="/") Done

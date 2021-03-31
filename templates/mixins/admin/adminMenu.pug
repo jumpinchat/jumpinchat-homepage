@@ -1,0 +1,32 @@
+mixin adminMenu(page)
+  ul.settings__Menu
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/dashboard",
+        class={ active: page === 'dashboard' }) Dashboard
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/communication",
+        class={ active: page === 'communication' }) Communication
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/rooms",
+        class={ active: page === 'rooms' }) Room list
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/users",
+        class={ active: page === 'users' }) User list
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/reports",
+        class={ active: page === 'reports' }) Report list
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/reports/messages",
+        class={ active: page === 'messageReports' }) Message Report list
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/banlist",
+        class={ active: page === 'banlist' }) Ban list
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/roomclosures",
+        class={ active: page === 'roomclosures' }) Room closures
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/ageverify",
+        class={ active: page === 'ageverify' }) Age verification requests
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/admin/sitemods",
+        class={ active: page === 'sitemods' }) Site mods

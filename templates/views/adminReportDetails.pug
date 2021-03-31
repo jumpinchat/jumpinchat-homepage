@@ -1,0 +1,161 @@
+extends ../layouts/default
+
+include ../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> reports <i class="fa fa-angle-right"></i> #{report._id}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h3 Report details
+              .admin__InfoList
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Room name
+                  .admin__InfoListItemValue
+                    a(href=`/admin/rooms/${report.room.name}`)= report.room.name
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Date created
+                  .admin__InfoListItemValue
+                    time.convertDate=report.createdAt
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Reason
+                  .admin__InfoListItemValue= report.reason
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Decription
+                  .admin__InfoListItemValue= report.description
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Is active
+                  .admin__InfoListItemValue= report.active
+
+            .profile__Container
+              h3 Reporter
+              .admin__InfoList
+                if report.reporter.userId
+                  .admin__InfoListItem
+                    .admin__InfoListItemTitle User ID
+                    .admin__InfoListItemValue
+                      a(href=`/admin/users/${report.reporter.userId}`, target="blank")= report.reporter.userId
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Handle
+                  .admin__InfoListItemValue
+                    a(href=`/admin/rooms/${report.room.name}/${report.reporter.userListId}`)= report.reporter.handle
+
+            .profile__Container
+              h3 Target
+              .admin__InfoList
+                if report.reporter.userId
+                  .admin__InfoListItem
+                    .admin__InfoListItemTitle User ID
+                    .admin__InfoListItemValue
+                      a(href=`/admin/users/${report.target.userId}`, target="blank")= report.target.userId
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Handle
+                  .admin__InfoListItemValue
+                    a(href=`/admin/rooms/${report.room.name}/${report.target.userListId}`)= report.target.handle
+
+              if report.log.body.screenshot
+                h3 Screenshot
+                img(src=report.log.body.screenshot)
+
+
+            .profile__Container
+              h3 Chat log
+              .admin__InfoList.admin__InfoList--scroll
+                each message in report.log.body.chat
+                  .admin__InfoListItem
+                    .admin__InfoListItemTitle
+                      time(datetime=new Date().toISOString())= new Date(message.timestamp).toLocaleTimeString()
+                      if message.handle
+                        span &nbsp;
+                        if message.userId
+                          a(href=`/admin/users/${message.userId}`)= message.handle
+                        else
+                          span= message.handle
+                    .admin__InfoListItemValue= message.message
+            if report.log.body.privateMessages.length > 0
+              .profile__Container
+                h3 Private message log
+                .admin__InfoList.admin__InfoList--scroll
+                  each message in report.log.body.privateMessages
+                    .admin__InfoListItem
+                      .admin__InfoListItemTitle
+                        time(datetime=new Date().toISOString())= new Date(message.timestamp).toLocaleTimeString()
+                        if message.handle
+                          span &nbsp;
+                          if message.userId
+                            a(href=`/admin/users/${message.userId}`)= message.handle
+                          else
+                            span= message.handle
+                      .admin__InfoListItemValue= message.message
+
+            if report.resolution && report.resolution.resolved
+              .profile__Container
+                h3 Report resolved
+                p.profile__UserSnippetContainer
+                  span Resolved by
+                  a(href=`/profile/${report.resolution.resolvedBy.username}`).profile__UserSnippet
+                    img.userIconPreview__Icon(
+                      src=`https://s3.amazonaws.com/jic-uploads/${report.resolution.resolvedBy.profile.pic}`,
+                      alt=`${report.resolution.resolvedBy.username}`
+                    )
+                    span= report.resolution.resolvedBy.username
+                  time.convertDate=report.resolution.resolvedAt
+                p Resolution: <strong>#{reportOutcomes[report.resolution.outcome]}</strong>
+
+            .profile__Container
+              h3 Actions
+              p
+                form(method="post")
+                  input(type='hidden', name='action', value='resolve')
+                  .form__InputContainer
+                    button.button.button--blue(type="submit", disabled=report.resolution.resolved) Mark resolved
+              form(method="post")
+                input(type='hidden', name='action', value='siteban')
+                .form__InputContainer.form__InputContainer--inline
+                  div.form__InputWrapper
+                    label(for="reason").form__Label Reason
+                    select.form__Input.register__FormInput(id="reason", name="reason")
+                      option(value="", selected=true, disabled=true) Select a reason
+                      each reason, key in banReasons
+                        option(value=key)= reason
+                  div.form__InputWrapper
+                    label(for="duration").form__Label Duration
+                    select.form__Input.register__FormInput(id="duration", name="duration")
+                      option(value="24") 24 hours
+                      option(value="48", selected=true) 48 hours
+                      option(value="168") 7 days
+                      option(value="4464") Perma ban
+                .form__InputContainer
+                  span.form__Label Type
+                  .form__RadioContainer
+                    input.form__Input-radio(type="checkbox", id="restrictBroadcast", name="restrictBroadcast")
+                    label(for="restrictBroadcast") Restrict broadcast
+                  .form__RadioContainer
+                    input.form__Input-radio(type="checkbox", id="restrictJoin", name="restrictJoin")
+                    label(for="restrictJoin") Restrict joining rooms
+                .form__InputContainer
+                  button.button.button--red(type="submit") Ban
+                  .form__Messages
+                    if error
+                      div.text--red.form__Error= error
+                    if success
+                      span.text--green.form__Success= success
+
+

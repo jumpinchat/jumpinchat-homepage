@@ -1,0 +1,44 @@
+extends ../../layouts/default
+
+include ../../mixins/pagination
+include ../../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> Message Reports
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h2.form__Header Active reports
+
+              table.admin__RoomList
+                thead
+                  tr
+                    th id
+                    th timestamp
+                    th reporter
+                    th sender
+                    th reason
+                tbody
+                  each report in reports
+                    tr.admin__RoomListItem
+                      td.admin__RoomListItemValue
+                        a(href=`/admin/reports/messages/${report._id}`)= report._id
+
+                      td.admin__RoomListItemValue= report.createdAt
+                      td.admin__RoomListItemValue
+                        a(href=`/admin/users/${report.message.recipient}`)= report.message.recipient
+
+                      td.admin__RoomListItemValue
+                        a(href=`/admin/users/${report.message.sender}`)= report.message.sender
+
+                      td.admin__RoomListItemValue= report.reason
+
+              if pagination
+                +pagination(pagination)

@@ -1,0 +1,30 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        .register__FormWrapper
+          header.register__Header
+            h2 Verify MFA using your authenticator app
+
+          form(method="post")
+            input(type='hidden', name='action', value='verify')
+            .form__InputContainer
+              label.form__Label(for="username") Token
+              input.form__Input.register__FormInput.form__Input--white#username(
+                name="token",
+                type="text",
+                placeholder="111111",
+                autofocus="true",
+                inputmode="numeric",
+                autocomplete="one-time-code"
+              )
+
+            .form__InputContainer
+              button.button.button--blue(type="submit") Submit

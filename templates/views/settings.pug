@@ -1,0 +1,40 @@
+extends ../layouts/default
+include ../mixins/settings/profile
+include ../mixins/settings/room
+include ../mixins/settings/user
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Settings <i class="fa fa-angle-right"></i> #{page}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            ul.settings__Menu
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/settings/profile",
+                  class={ active: page === 'profile' }) Profile
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/settings/account",
+                  class={ active: page === 'account' }) Account
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/settings/room",
+                  class={ active: page === 'room' }) Room
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/settings/user",
+                  class={ active: page === 'user' }) User
+          .multicol__Main
+            case page
+              when 'profile'
+                +settingsProfile(user)
+              when 'room'
+                +settingsRoom(room)
+              when 'user'
+                +settingsUser(user)
+

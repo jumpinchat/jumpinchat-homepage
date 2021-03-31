@@ -1,0 +1,93 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> age verification request <i class="fa fa-angle-right"></i> #{request._id}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            ul.settings__Menu
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/admin/dashboard",
+                  class={ active: page === 'dashboard' }) Dashboard
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/admin/rooms",
+                  class={ active: page === 'rooms' }) Room list
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/admin/users",
+                  class={ active: page === 'users' }) User list
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/admin/reports",
+                  class={ active: page === 'reports' }) Report list
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/admin/banlist",
+                  class={ active: page === 'banlist' }) Ban list
+              li.settings__MenuItem
+                a.settings__MenuItemLink(href="/admin/ageverify",
+                  class={ active: page === 'ageverify' }) Age verification requests
+
+          .multicol__Main
+            .profile__Container
+              h3 Request details
+              .admin__InfoList
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Date created
+                  .admin__InfoListItemValue
+                    time.convertDate= request.createdAt
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Expires
+                  .admin__InfoListItemValue
+                    time.convertDate= request.expiresAt
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Status
+                  .admin__InfoListItemValue= request.status
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle User
+                  .admin__InfoListItemValue
+                    a(href=`/admin/users/${request.user}`)= request.user
+
+            .profile__Container
+              h3 Verification pictures
+
+              .ageVerify__DetailImageWrapper
+                each image in request.images
+                  img.ageVerify__DetailImage(src=image, alt="verification image")
+
+            .profile__Container
+              h3 Verification actions
+              .form__Messages
+                if success
+                  span.text--green.form__Success= success
+                if errors
+                  div.text--red.form__Error= errors
+
+              .admin__ActionsContainer
+
+                if request.status === 'PENDING'
+                  form(method="post")
+                    input(type='hidden', name='action', value='deny')
+                    button.button.button--red(type='submit') Deny
+
+                  form(method="post")
+                    input(type='hidden', name='action', value='reject')
+                    .form__InputContainer
+                      label(for='rejectReason').form__Label Reason
+                      select.form__Input.register__FormInput(id='rejectReason', name='rejectReason')
+                        option(value="", selected=true, disabled=true) Select a reason
+                        each reason, key in rejectReasons
+                          option(value=reason)=reason
+                    .form__InputContainer
+                      button.button.button--yellow(type='submit') Reject
+
+                  form(method="post")
+                    input(type='hidden', name='action', value='approve')
+                    button.button.button--green(type='submit') Approve
+
+                else
+                  Report already acted upon

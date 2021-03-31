@@ -1,0 +1,40 @@
+.ageVerify {
+  &__Upload {
+    float: left;
+    box-sizing: border-box;
+    width: 50%;
+  }
+
+  &__Info {
+    float: left;
+    box-sizing: border-box;
+    margin: {
+      top: 0.25em;
+      left: 1em;
+    }
+    width: calc(50% - 1em);
+
+    font: {
+      size: 0.85em;
+    }
+
+    color: $color-black-04;
+  }
+
+  &__DetailImageWrapper {
+    text-align: center;
+  }
+
+  &__DetailImage {
+    max-width: 480px;
+    height: auto;
+
+    border: 1px solid $color-black-03;
+
+    & + & {
+      margin: {
+        top: 3.2rem;
+      }
+    }
+  }
+}

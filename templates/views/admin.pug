@@ -1,0 +1,36 @@
+extends ../layouts/default
+
+include ../mixins/admin/adminMenu
+include ../mixins/admin/dashboard
+include ../mixins/admin/roomlist
+include ../mixins/admin/userlist
+include ../mixins/admin/reportlist
+include ../mixins/admin/ageverifylist
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> #{page}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+
+          .multicol__Main
+            case page
+              when 'dashboard'
+                +adminDashboard(users, rooms, page)
+              when 'rooms'
+                +adminRoomlist(rooms)
+              when 'users'
+                +adminUserlist(users)
+              when 'reports'
+                +adminReportList(reports)
+              when 'ageverify'
+                +adminAgeVerifyList(requests)

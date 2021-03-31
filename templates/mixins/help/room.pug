@@ -1,0 +1,74 @@
+mixin helpRoom()
+  section.form__Segment.profile__Container
+    .wrapper
+      h1 Room help
+
+      section
+        h2 Types of rooms
+
+        article.profile__Article
+          h3#temp
+            a(href="#temp") Temporary rooms
+
+          p
+            | Temporary rooms are the default type of rooms. They are created when
+            | ever you navigate to a URL, such as <samp>jumpin.chat/sampleroom</samp>.
+            | Like their name implies, they are temporary, and will exist so long as there
+            | are users in it. After the last user leaves, the room will be removed.
+
+          p
+            | Once a temporary room has been created, the first user will be assigned as a moderator.
+            | This user has the ability to assign other moderators. Aside from this, there is no configuration
+            | of these rooms.
+
+          p
+            | Temporary rooms can not be created if the room name has already been registered. Instead, you will
+            | enter the existing room.
+
+        article.profile__Article
+          h3#registered
+            a(href="#registered") Registered rooms
+
+          p
+            | Registered rooms are created upon registering a user account. Your chosen username will
+            | be used as the rooms's name, which is also used to reserve a URL. For example registering
+            | a user with the username <samp>jump</samp> will create a room accessible at
+            | <samp>jumpin.chat/jump</samp>.
+
+          p
+            | Benefits in registering a room include the ability to customise it, as well as access
+            | to configuration options in the <a href="/settings/room">room settings</a>. These include
+            | setting room display pictures and descriptions, which
+            | will be presented on the <a href="/directory">room directory</a>
+
+          p
+            | You can also assign users as moderators by adding their usernames to the moderator list. Users
+            | added to the moderator list will remain moderators until they are removed.
+
+          p
+            | Other settings include the ability to add additional restrictions.
+            | For example, hide the room from the directory, require users to be registered or add a password,
+            | and restrict playing YouTube videos to moderators. Becoming a <a href="/support">site supporter</a>
+            | also allows adding custom emoji for all users in your room to use.
+
+
+      section
+        h2#age-restricted
+          a(href="#age-restricted") Age restrictions
+
+        p
+          | By default, rooms have restrictions as to what actions can be done on camera.
+          | You can read up on these restrictions in detail in the <a href="/terms#prohibitions">terms and conditions</a>.
+
+        p
+          | In your <a href="/settings/room">room settings</a> you can set your room to be <em>age restricted</em>.
+          | This will have several implications. <strong>Firstly</strong>, it removes some restrictions on what can be
+          | broadcasted. Namely nudity and sexual activities. More information can be found in the relevant section in
+          | the <a href="/terms#age-restriction">terms and conditions</a>. <strong>Secondly</strong> it enforces restrictions on who
+          | is able to broadcast. Only users who have verified their age as over 18 years will be able to broadcast.
+          | <strong>Thirdly</strong>, your room will no longer be displayed on the public room list.
+
+        p
+          | It must be noted, however, that by setting your room as <em>age restricted</em> you will not be able
+          | to revert it to it's previous state. So be sure that this is what you want.
+

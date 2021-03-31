@@ -1,0 +1,32 @@
+extends ../../layouts/default
+
+include ../../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> Communication
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h2.form__Header Send message to all users
+
+              form(method="post")
+                input(type='hidden', name='action', value='message')
+                .form__InputContainer
+                  label(for="message").form__Label message
+                  textarea.form__Input.register__FormInput(id="message", name="message", rows=10)
+
+                .form__InputContainer
+                  button.button.button--blue(type="submit") Send
+
+                .form__Messages
+                  if success
+                    div.text--green.form__Success= success
+                  if error
+                    span.text--red.form__Error= error

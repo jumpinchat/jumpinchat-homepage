@@ -1,0 +1,60 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    if success
+      div.settings__PageBanner.settings__PageBanner--success= success
+    if error
+      div.settings__PageBanner.settings__PageBanner--error= error
+    section.full-width.register
+      .wrapper
+        .register__FormWrapper
+          header.register__Header
+            h2 Contact
+
+          p
+            | Use this form to contact the site admin. If you have an issue or just a
+            | question about the site in general, don't hesitate to send a message.
+          p
+            | You can also contact me on <a href="https://twitter.com/jumpinchat" target="_blank" rel="noreferrer,nofollow">Twitter</a>
+            | or <a href="https://facebook.com/jumpinchat" target="_blank" rel="noreferrer,nofollow">Facebook</a>
+
+          form#login-form(method="post")
+            input(type='hidden', name='action', value='send')
+            .form__InputContainer
+              label.form__Label(for="email") Your email
+              input.form__Input.register__FormInput.form__Input--white#email(name="email", type="email", autocomplete="email", required)
+            .form__InputContainer
+              label.form__Label(for="option") Subject
+              select.form__Input.register__FormInput.form__Input--white(name='option', required)
+                option(value="", disabled=true, selected=true) Select a subject
+                option(value="Account issue") Issue with an account
+                option(value="Payment issue") Issue with subscriptions or payments
+                option(value="Broadcasting issue") Issue broadcasting
+                option(value="Technical issue") Technical issues with the site
+                option(value="Site Feedback") Feedback and requests
+                option(value="General question") General question
+
+            .form__InputContainer
+              a(href='/help/cams') Make sure to checkout the help pages in case that solves any of your issues
+
+            .form__InputContainer
+              label.form__Label(for="name") Your name (optional)
+              input.form__Input.register__FormInput.form__Input--white#name(name="name", type="text", autocomplete="name")
+
+            .form__InputContainer.u-hidden
+              label(for="phone") phone
+              input#phone(name="phone6tY4bPYk", autocomplete="off", type="text")
+
+            .form__InputContainer
+              label.form__Label(for="message") Message
+              textarea.form__Input.register__FormInput.form__Input--white(name="message", rows="10")
+
+            .form__InputContainer
+              if errors
+                div.text--red #{errors}
+              if success
+                div.text--green #{success}
+
+              button.button.button--blue(type="submit") Send

@@ -1,0 +1,80 @@
+include ../upload
+
+mixin settingsProfile(user)
+  form(method="post").form__Segment.profile__Container
+    h2.form__Header Profile settings
+    input(type='hidden', name='action', value='profile')
+    .form__InputContainer
+      label.form__Label(for="location") Location
+      input.form__Input.register__FormInput(name="location", type="text", autocomplete="location", maxlength="50", value=user.profile.location)
+
+    .form__InputContainer
+      label.form__Label(for="dobMonth") Birthday
+      .form__InputInline
+        select.form__Input.register__FormInput(name="dobMonth")
+          option(value="", selected=!user.profile.dob.month, disabled=true) Month
+          option(value="1", selected=user.profile.dob.month === 1) January
+          option(value="2", selected=user.profile.dob.month === 2) February
+          option(value="3", selected=user.profile.dob.month === 3) March
+          option(value="4", selected=user.profile.dob.month === 4) April
+          option(value="5", selected=user.profile.dob.month === 5) May
+          option(value="6", selected=user.profile.dob.month === 6) June
+          option(value="7", selected=user.profile.dob.month === 7) July
+          option(value="8", selected=user.profile.dob.month === 8) August
+          option(value="9", selected=user.profile.dob.month === 9) September
+          option(value="10", selected=user.profile.dob.month === 10) October
+          option(value="11", selected=user.profile.dob.month === 11) November
+          option(value="12", selected=user.profile.dob.month === 12) December
+
+        select.form__Input.register__FormInput(name="dobDay")
+          option(value="", selected=!user.profile.dob.day, disabled=true) Date
+          option(value="1", selected=user.profile.dob.day === 1) 01
+          option(value="2", selected=user.profile.dob.day === 2) 02
+          option(value="3", selected=user.profile.dob.day === 3) 03
+          option(value="4", selected=user.profile.dob.day === 4) 04
+          option(value="5", selected=user.profile.dob.day === 5) 05
+          option(value="6", selected=user.profile.dob.day === 6) 06
+          option(value="7", selected=user.profile.dob.day === 7) 07
+          option(value="8", selected=user.profile.dob.day === 8) 08
+          option(value="9", selected=user.profile.dob.day === 9) 09
+          option(value="10", selected=user.profile.dob.day === 10) 10
+          option(value="11", selected=user.profile.dob.day === 11) 11
+          option(value="12", selected=user.profile.dob.day === 12) 12
+          option(value="13", selected=user.profile.dob.day === 13) 13
+          option(value="14", selected=user.profile.dob.day === 14) 14
+          option(value="15", selected=user.profile.dob.day === 15) 15
+          option(value="16", selected=user.profile.dob.day === 16) 16
+          option(value="17", selected=user.profile.dob.day === 17) 17
+          option(value="18", selected=user.profile.dob.day === 18) 18
+          option(value="19", selected=user.profile.dob.day === 19) 19
+          option(value="20", selected=user.profile.dob.day === 20) 20
+          option(value="21", selected=user.profile.dob.day === 21) 21
+          option(value="22", selected=user.profile.dob.day === 22) 22
+          option(value="23", selected=user.profile.dob.day === 23) 23
+          option(value="24", selected=user.profile.dob.day === 24) 24
+          option(value="25", selected=user.profile.dob.day === 25) 25
+          option(value="26", selected=user.profile.dob.day === 26) 26
+          option(value="27", selected=user.profile.dob.day === 27) 27
+          option(value="28", selected=user.profile.dob.day === 28) 28
+          option(value="29", selected=user.profile.dob.day === 29) 29
+          option(value="30", selected=user.profile.dob.day === 30) 30
+          option(value="31", selected=user.profile.dob.day === 31) 31
+
+    .form__InputContainer
+      label.form__Label(for="bio") About you (You can use <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">Markdown syntax</a>)
+      textarea.form__Input.register__FormInput(name="bio", rows="10")= user.profile.bio
+
+    .form__InputContainer
+      button.button.button--blue(type="submit") Update account
+      .form__Messages
+        if error
+          span.text--red.form__Error= error
+
+  +upload(
+    'useravatar',
+    '/api/user/' + user._id + '/uploadImage',
+    user.profile.pic
+      ? 'https://s3.amazonaws.com/jic-uploads/' + user.profile.pic
+      : null
+  )
+

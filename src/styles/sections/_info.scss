@@ -1,0 +1,26 @@
+.info {
+  padding: 6.4rem 0;
+
+  &__Article {
+    width: 100%;
+    box-sizing: border-box;
+    & + & {
+      margin: {
+        top: 3.2rem;
+      }
+    }
+
+    @media screen and (min-width: $bp-tablet) {
+      & + & {
+        margin: {
+          top: 6.4rem;
+        }
+      }
+    }
+  }
+
+  &__ArticleContent {
+    max-width: 33em;
+    margin: 0 auto;
+  }
+}

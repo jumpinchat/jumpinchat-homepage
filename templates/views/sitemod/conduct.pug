@@ -1,0 +1,59 @@
+extends ../../layouts/default
+include ../../mixins/sitemod/sitemodMenu
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Site mod <i class="fa fa-angle-right"></i> Code of Conduct
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +sitemodMenu(page)
+          .multicol__Main
+            section.form__Segment.profile__Container
+              .wrapper
+                h1 Code of Conduct
+                article
+                  h2#responsibility
+                    a(href="#responsibility") Responsibility
+                  ul
+                    li
+                      | Respond to reports when possible, in a manner suiting the contents of the report.
+                      | A lack of action <em>is</em> a legitimate response to a report if there is no breach
+                      | of the <a href="/terms">terms and conditions</a>
+
+                    li
+                      | Aim to prevent or disuade harassment or abuse between users, especially between rooms
+                    li
+                      | Escalate any repeat offences to a site adminstrator when necessary
+
+                  h2#impartiality
+                    a(href="#impartiality") Impartiality
+                  ul
+                    li Do not perform moderator actions on behalf of other users or rooms
+                    li A site mod should commit only to enforcing the terms and conditions
+
+                  h2#objectivity
+                    a(href="#objectivity") Objectivity
+                  ul
+                    li Decisions should be based on evidence, rather than feeling or emotion
+                    li Respect the site's members and avoid discriminating based on your own ideals or perceptions
+
+                  h2#discretion
+                    a(href="#discretion") Discretion
+                  ul
+                    li Do not communicate or otherwise reveal the contents of reports to other users
+                    li Do not disclose known personal information of other users and moderators
+                    li Communication with unruly users should be done in private whenever possible
+
+                  h2#resignation
+                    a(href="#resignation") Resignation
+                  p
+                    | During your time as a site moderator, you may see all manner of unpleasent things.
+                    | Should you are no longer able to effectively perform your task, you can have a site admin
+                    | remove your site moderator status at any time.
+
+                  footer
+                    a(href="/profile/vivaldi") Vivaldi

@@ -1,0 +1,209 @@
+.form {
+  $p: &;
+  &__InputContainer {
+    text-align: left;
+    & + & {
+      margin: {
+        top: 1.25em;
+      }
+    }
+
+    &--inline {
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+      align-items: center;
+
+      & > * {
+        margin: {
+          left: 1em;
+        }
+
+        &:first-child {
+          margin: {
+            left: 0;
+          }
+        }
+      }
+
+    }
+  }
+
+  &__InputWrapper {
+    flex-grow: 1;
+  }
+
+  &__Label {
+    display: block;
+    padding: {
+      bottom: 0.25em;
+    }
+    font: {
+      size: 0.85em;
+      weight: 400;
+    }
+
+    color: $color-black-04;
+  }
+
+  &__Input {
+    padding: 0.4em 0.75em;
+    border: 1px solid $color-black-06;
+    border-radius: 2px;
+    background-color: $color-black-10;
+    outline: none;
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: $color-black-03;
+    }
+
+    &.touched:required:invalid {
+      border-color: $color-red-03;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &--white {
+      background-color: $color-white;
+    }
+
+    &-radio {
+      margin: {
+        right: 0.25em;
+      }
+    }
+
+    &-checkbox {
+      display: none;
+
+      & + label {
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding: {
+          left: 1.5em;
+        }
+
+        &:before {
+          content: "";
+          position: absolute;
+          left: 0;
+          width: 1.6rem;
+          height: 1.6rem;
+          background: $color-black-10;
+          border: 1px solid $color-black-06;
+          border-radius: 2px;
+
+          line-height: 1.6rem;
+          font: {
+            size: 0.85em;
+          }
+          text-align: center;
+
+          cursor: pointer;
+        }
+
+        &:hover {
+          &:before {
+            border-color: $color-blue-02;
+          }
+        }
+      }
+
+      &:checked + label {
+        &:before {
+          content: "\f00c";
+          font: {
+            family: "Font Awesome 5 Pro";
+          }
+        }
+      }
+
+      &:disabled + label {
+        &:before {
+          background-color: $color-black-08;
+          color: $color-black-05;
+          border-color: $color-black-06;
+
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  &__InputInline {
+    display: flex;
+    align-items: flex-end;
+
+    & > #{$p}__InputContainer {
+      & + #{$p}__InputContainer {
+        margin: {
+          top: 0;
+          left: 0.5em;
+        }
+      }
+    }
+
+    & > #{$p}__Input,
+    .button {
+      display: inline-block;
+      width: auto;
+
+      margin: {
+        right: 1em;
+      }
+
+      &:last-child {
+        margin: {
+          right: 0;
+        }
+      }
+    }
+  }
+
+  &__InlineInput {
+    width: 100%;
+    height: 2.3em;
+    padding: 0 0.75em;
+    border: none;
+    border-bottom: 2px solid $color-black-06;
+
+    background-color: $color-black-10;
+    outline: none;
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: $color-blue-02;
+    }
+
+    &.touched:required:invalid {
+      border-color: $color-red-03;
+    }
+
+    &--white {
+      background-color: $color-white;
+    }
+  }
+
+  &__Error {
+    font: {
+      size: 0.85em;
+      weight: 600;
+    }
+
+    color: $color-red-03;
+  }
+
+  &__LinkBack {
+    margin: {
+      top: 1em;
+    }
+  }
+
+  &__Header {
+    margin: 0 0 1em 0;
+  }
+}

@@ -1,0 +1,12 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width.register
+      .wrapper
+        if success
+          span.text--green.form__Success= success
+        if errors
+          span.text--red.form__Error= errors
+

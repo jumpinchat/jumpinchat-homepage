@@ -1,0 +1,41 @@
+extends ../layouts/default
+include ../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> site bans
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h2.form__Header Ban list
+
+              table.admin__RoomList
+                thead
+                  tr
+                    th ID
+                    th User IP
+                    th User
+                    th Created
+                    th Expires
+                tbody
+                each item in banlist
+                  tr.admin__RoomListItem
+                    td.admin__RoomListItemValue
+                      a(href=`/admin/banlist/${item._id}`)= item._id
+                    td.admin__RoomListItemValue= item.ip
+                    td.admin__RoomListItemValue
+                      if item.userId
+                        a(href=`/admin/users/${item.userId}`)= item.userId
+                      else
+                        span n/a
+
+                    td.admin__RoomListItemValue
+                      time.convertDate= item.createdAt.toISOString()
+                    td.admin__RoomListItemValue
+                      time.convertDate= item.expiresAt.toISOString()

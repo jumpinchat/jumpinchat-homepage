@@ -1,0 +1,13 @@
+.wrapper {
+	max-width: $bp-desktop;
+	margin: 0 auto;
+	padding: 0 1rem;
+
+	@media screen and (min-width: $bp-tablet) {
+		padding: 0 2rem;
+	}
+}
+
+.site-wrapper {
+	min-height: calc(100% - 88px);
+}

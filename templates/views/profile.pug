@@ -1,0 +1,64 @@
+extends ../layouts/default
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          if username
+            h2.page-header= username
+          else
+            h2.page-header Your profile <a href="/settings/profile"><i class="fa fa-edit"></i></a>
+          .multicol__Wrapper
+            .multicol__Side.multicol__Side--left
+              aside.profile__Container
+                .profile__DisplayImageContainer
+                  if profileUser.profile.pic
+                    img.profile__DisplayImage(src="https://s3.amazonaws.com/jic-uploads/" + profileUser.profile.pic)
+                  else
+                    img.profile__DisplayImage(src="https://s3.amazonaws.com/jic-uploads/user-avatar/avatar-blank.png")
+
+              aside.profile__Container
+                h2.profile__ContainerTitle about
+                dl
+                  .profile__ListItem
+                    dt.profile__ListItemTitle Joined
+                    dd.profile__ListItemValue
+                      time.convertDate(datetime=profileUser.attrs.join_date)= profileUser.attrs.join_date
+
+                  .profile__ListItem
+                    dt.profile__ListItemTitle Last Seen
+                    dd.profile__ListItemValue
+                      time.convertDate(datetime=profileUser.attrs.last_active)= profileUser.attrs.last_active
+
+                  if profileUser.profile && profileUser.profile.location
+                    .profile__ListItem
+                      dt.profile__ListItemTitle Location
+                      dd.profile__ListItemValue= profileUser.profile.location
+
+                  if profileUser.profile && profileUser.profile.dob
+                    .profile__ListItem
+                      dt.profile__ListItemTitle Has a birthday on
+                      dd.profile__ListItemValue= profileUser.profile.dob
+              if username
+                aside.profile__Container.profile__Container--clear
+                  a(href=`/messages/${profileUser.username}`).button.button--black-transparent.profile__Action Message
+                  a(href=`/support/payment?productId=onetime&amount=300&beneficiary=${profileUser._id}`).button.button--red.profile__Action
+                    i.fa.fa-heart.button__Icon
+                    | Gift Support
+              aside.profile__Container
+                h2.profile__ContainerTitle trophies
+                .profile__TrophyWrapper
+                  if trophies.length === 0
+                    span.text--sub Empty
+                  each trophy in trophies
+                    .profile__Trophy(title=trophy.title)
+                      img.profile__TrophyImage(src=trophy.image, alt=trophy.title)
+
+            .multicol__Main
+              article.profile__Container
+                h2.profile__ContainerTitle Bio
+                if profileUser.profile && profileUser.profile.bio
+                  section!= profileBio
+                else
+                  span User hasn't created their bio yet

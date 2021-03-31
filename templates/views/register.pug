@@ -1,0 +1,68 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+    section.full-width.register
+      .wrapper
+        .register__FormWrapper
+          header.register__Header
+            h2 Create your account
+          form#register-form(method="post")
+            input(type='hidden', name='action', value='register')
+            .form__InputContainer
+              label.form__Label(for="username") Username
+              input.form__Input.register__FormInput.form__Input--white#username(name="username", type="text", required="required", autocomplete="username name", maxlength="32", autocapitalize="off")
+              div.register__UsernameText
+                span
+
+            .form__InputContainer
+              label.form__Label(for="email") Email
+              input.form__Input.register__FormInput.form__Input--white#email(name="email", type="email", required="required", autocomplete="email")
+            .form__InputContainer
+              label.form__Label(for="password") Password
+              input.form__Input.register__FormInput.form__Input--white#password(name="password",
+                type="password",
+                minlength="6",
+                maxlength="254",
+                required="required",
+                autocomplete="password")
+
+            .form__InputContainer.u-hidden
+              label(for="phone") phone
+              input#phone(name="phone6tY4bPYk", autocomplete="off", type="text")
+
+            .form__InputContainer
+              .form__RadioContainer
+                input.form__Input-radio(type="checkbox", value="true", id="allow-communications", name="receiveUpdates")
+                label(for="allow-communications") Receive updates via email?
+
+                span.register__TermsText
+                  | We&apos;ll only send you site updates and information important to your use
+                  | of the site.
+                  | You can, however, also receive news via <a href="https://twitter.com/jumpinchat" target="_blank" rel="noreferrer,nofollow">Twitter</a>
+                  | or <a href="https://facebook.com/jumpinchat" target="_blank" rel="noreferrer,nofollow">Facebook</a>
+
+
+            .form__InputContainer
+              span.register__TermsText
+                | By registering, you agree to and have read JumpInChat&apos;s
+                | <a href="/terms" target="_blank">Terms&nbsp;and&nbsp;Conditions</a> and
+                | <a href="/privacy" target="_blank">Privacy&nbsp;Policy</a>.
+              if errors
+                div.text--red.form__Error=errors
+              button.button.button--blue(type="submit") Create your account
+
+              div.form__LinkBack
+                | Already registered? <a href="/login">Log in to your account</a>
+
+block js
+  script.
+    document.addEventListener("DOMContentLoaded", function(event) {
+      window.genFp();
+    });

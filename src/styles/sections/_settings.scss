@@ -1,0 +1,120 @@
+.settings {
+  &__Menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid $color-black-06;
+    border-radius: 3px;
+  }
+
+  &__MenuItem {
+    & + & {
+      border-top: 1px solid $color-black-06;
+    }
+  }
+
+  &__MenuItemLink {
+    display: block;
+    padding: 0.25em;
+    background-color: $color-white;
+    color: $color-blue-03;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $color-black-09;
+    }
+
+    &.active {
+      background-color: $color-black-09;
+    }
+  }
+
+  &__RoomModList {
+    padding: 0;
+    list-style: none;
+  }
+
+  &__RoomModListItem {
+    display: flex;
+    align-items: center;
+  }
+
+  &__RoomModUsername {
+    font: {
+      weight: 700;
+    }
+  }
+
+  &__RoomModAssignedBy {
+    display: inline-flex;
+    align-items: center;
+
+    margin: {
+      left: 1em;
+    }
+  }
+
+  &__RoomModRemove {
+    background: transparent;
+    border: none;
+    &:hover,
+    &:focus {
+      color: $color-blue-02;
+    }
+  }
+
+  &__StatWrapper {
+    display: flex;
+    flex-direction: row;
+    margin: {
+      bottom: 3.2rem;
+    }
+  }
+
+  &__Stat {
+    flex-grow: 1;
+    padding: 1em;
+    background-color: $color-white;
+    border: 1px solid $color-black-08;
+    box-sizing: border-box;
+    text-align: center;
+
+    & + & {
+      margin: {
+        left: 1em;
+      }
+    }
+  }
+
+  &__StatValue {
+    font: {
+      size: 3em;
+      weight: 600;
+    }
+  }
+
+  &__PageBanner {
+    float: left;
+    width: 100%;
+    padding: {
+      top: 0.5em;
+      bottom: 0.5em;
+    }
+    background-color: $color-black-03;
+
+    color: $color-white;
+
+    text-align: center;
+    font: {
+      weight: 600;
+    }
+
+    &--success {
+      background-color: $color-green-02;
+    }
+
+    &--error {
+      background-color: $color-red-02;
+    }
+  }
+}

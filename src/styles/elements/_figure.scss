@@ -1,0 +1,25 @@
+.figure {
+  &__Set {
+    display: flex;
+    flex-wrap: wrap;
+
+    @media screen and (min-width: $bp-tablet) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__Item {
+    img {
+      max-width: 100%;
+    }
+  }
+
+  &__Caption {
+    color: $color-black-05;
+    font: {
+      size: 0.85em;
+    }
+
+    text-align: center;
+  }
+}

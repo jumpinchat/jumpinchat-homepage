@@ -1,0 +1,123 @@
+.modal {
+  position: fixed;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  &.open {
+    display: flex;
+  }
+
+  &__Window {
+    display: flex;
+    flex-direction: column;
+    width: 33em;
+    overflow: hidden;
+    border-radius: 3px;
+    outline: none;
+  }
+
+  &__Header {
+    position: relative;
+    margin: 0;
+    padding: 1.25rem 1rem;
+    background: $color-black-02;
+    border-radius: 3px 3px 0 0;
+    font: {
+      size: 1em;
+      weight: 500;
+    }
+    color: $color-white;
+  }
+
+  &__Body {
+    padding: 2rem 1rem;
+    background: $color-black-10;
+
+    a,
+    a:link,
+    a:visited {
+      color: inherit
+    }
+
+    a:hover,
+    a:focus {
+      color: $color-blue-02;
+    }
+
+    &--scroll {
+      max-height: 350px;
+      overflow-y: auto;
+      line-height: 1.5;
+    }
+
+    &--noPadding {
+      padding: 0;
+    }
+  }
+
+  &__Footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 0;
+    background: $color-black-10;
+  }
+
+  &__Error {
+    display: inline-block;
+    width: 100%;
+    padding: 1em 0 0;
+    font: {
+      weight: 600;
+    }
+    text-align: center;
+  }
+
+  &__Button {
+    background: transparent;
+    border: none;
+
+    &-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+
+      font: {
+        size: 18px;
+        weight: 300;
+      }
+
+      opacity: 0.85;
+    }
+  }
+
+  &__SubText {
+    margin: {
+      top: 1em;
+    }
+
+    padding: 0 1rem 2rem;
+
+    color: $color-black-05;
+    text-align: center;
+
+    a, a:visited {
+      color: $color-blue-03;
+    }
+
+    a:hover,
+    a:focus {
+      color: $color-blue-02;
+    }
+  }
+}

@@ -1,0 +1,69 @@
+mixin helpMod()
+  section.form__Segment.profile__Container
+    .wrapper
+      h1 Roles and room moderation
+
+      section
+        h2#assign
+          a(href="#assign") Assigning moderators
+
+        p
+          | Assigning moderators is an essential part of running a stable chat room.
+          | Moderators can ban or silence disruptive users, close broadcasts and depending on
+          | the room settings, play videos and manage the playlist.
+
+        p
+          | Moderators are created via room <strong>roles</strong>. Every room starts with a "moderator" role, with
+          | some default permissions set. To access user roles, open the chat settings (<i class="fa fa-gear"></i>) in your room
+          | and select <strong>Roles</strong>.
+        p
+          | Assign roles in the <strong>Users</strong> page in chat settings. Search for a user by username, then assign from a list of available roles.
+          | Users can be assigned multiple roles. Permissions are inclusive of all assigned roles. A user in the user list will display the role furthest
+          | up the list, and it's icon will appear beside the username.
+
+        p
+          | In temporary rooms, the first user in the room is the moderator by default.
+
+      section
+        h2#permissions
+          a(href="#permissions") Managing role permissions
+
+        p
+          | User roles can be customised by setting permissions. These can range from general room access, permission to play or control videos,
+          | room moderation, and room management permissions. By creating your own roles with different permissions, you can customise the level of
+          | control your users have.
+
+      section
+        h2#commands
+          a(href="#commands") User management commands
+        dl
+          dt /banlist
+          dd open the room banlist
+
+          dt /close [nickname or username]
+          dd close a user's broadcast
+
+          dt /ban [handle or username] [(optional) duration (hours)]
+          dd
+            | ban a user for a specified duration, or 24 hours if no value is given. Users will not be able to re-join
+            | a room until the ban expires or is cleared.
+
+
+          dt /unban [handle]
+          dd unban a user
+
+          dt /silence [handle or username]
+          dd silence a user for 2 minutes
+
+          dt /kick [handle or username]
+          dd
+            | boot a user from the room. Note that this does <em>not</em> ban the user, rather it allows you to remove
+            | users that are afk, lurking or have disconnected and are lingering. Alternatively, it could be considered
+            | a warning to troublesome users
+
+
+          dt /clear
+          dd remove all message from the chat feed (in case someone posts something they shouldn't have)
+
+          dt /topic [topic message]
+          dd set the room topic

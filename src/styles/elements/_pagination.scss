@@ -1,0 +1,47 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 1em 0;
+
+  &__Page {
+    display: inline-block;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 0.25em;
+    border: 1px solid $color-black-08;
+    border-radius: 2px;
+    box-sizing: border-box;
+    background-color: $color-white;
+    line-height: 32px;
+    text-decoration: none;
+    text-align: center;
+
+    & + & {
+      margin: {
+        left: 0.5em;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      background: $color-black-09;
+      color: inherit;
+    }
+
+    &--current {
+      background-color: $color-blue-03;
+      color: $color-white;
+
+      &:hover,
+      &:focus {
+        background: $color-blue-04;
+        color: $color-white;
+      }
+    }
+  }
+
+  &__End {
+    padding: 0 0.5em;
+  }
+}

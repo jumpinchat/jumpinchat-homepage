@@ -1,0 +1,26 @@
+mixin helpTrophies()
+  section.form__Segment.profile__Container
+    .wrapper
+      h1 Trophies
+      each trophy in trophies
+        article.help__ImageListItem
+          div.help__ImageListItemImageContainer
+            img.help__ImageListItemImage.profile__TrophyImage(src=trophy.image, alt=trophy.title)
+          div.help__ImageListItemBody
+            h3.help__ImageListItemTitle= trophy.title
+            p.help__ImageListItemDescription= trophy.description
+
+      article.profile__Article
+        h2 Re-occurring trophies
+
+        h3 Membership duration
+        p
+          | Trophies will be awarded for being a member for a long enough time. These will be given on a yearly basis, for example
+          | being a member for 1 year, 2 years etc.
+
+        h3 Occasions
+        p
+          | Certain important, or otherwise interesting, times of the year will give trophies if you are active on the site
+          | during that time. For example, if you find yourself in a chat room on Xmas day for some reason, you will
+          | receive the Xmas 20XX trophy.
+

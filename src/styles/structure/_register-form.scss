@@ -1,0 +1,42 @@
+.register {
+  padding: 3.2rem 0;
+
+  @media screen and (min-width: $bp-tablet) {
+    padding: 6.4rem 0;
+  }
+
+  &__Header {
+    margin: {
+      bottom: 3.2rem;
+    }
+  }
+
+  &__FormWrapper {
+    float: left;
+    width: 100%;
+
+    @media screen and (min-width: $bp-tablet) {
+      float: none;
+      width: 450px;
+      margin: 0 auto;
+    }
+  }
+
+  &__Form {
+    max-width: 300px;
+  }
+
+  &__FormInput {
+    width: 100%;
+  }
+
+  &__TermsText {
+    display: block;
+    margin: {
+      bottom: 1em;
+    }
+
+    font-size: 0.85em;
+    color: $color-black-05;
+  }
+}

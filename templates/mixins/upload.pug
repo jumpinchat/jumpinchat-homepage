@@ -1,0 +1,22 @@
+mixin upload(type, action, existingImage)
+  section.form__Segment.profile__Container
+    h2.form__Header Display picture
+
+    .imageUpload__FormWrapper
+      form.imageUpload__Form(action=action, data-type=type, class="imageUpload__Form--" + type)
+        span.text--sub Max file size 512Kb
+        .form__InputContainer.imageUpload__Container
+          .imageUpload__Input
+            input.imageUpload__File(type="file", name="image", id="file", data-id=typeId)
+            label(for="file").imageUpload__Label <strong>Choose a file</strong> <span class="imageUpload__Label--isAdvanced">or drop it here</span>
+          img.imageUpload__Preview
+          img.imageUpload__Loading.u-hidden(src="/images/loading.svg")
+
+        .form__InputContainer
+          button#uploadImageButton.button.button--blue.imageUpload__UploadButton(type="submit") Upload image
+
+        div.text--green.form__Success.imageUpload__Status--success.u-hidden Image uploaded successfully
+        div.text--green.form__Error.imageUpload__Status--error.u-hidden Image upload failed
+
+      if existingImage
+        img.imageUpload__Existing(src=existingImage, alt="current image")

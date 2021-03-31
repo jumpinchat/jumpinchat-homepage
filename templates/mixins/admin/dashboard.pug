@@ -1,0 +1,78 @@
+mixin adminDashboard(users, rooms, stats)
+  section.form__Segment
+    .settings__StatWrapper
+      div.settings__Stat
+        h3.form__Header active rooms
+        span.settings__StatValue= roomCount
+
+      div.settings__Stat
+        h3.settings__SectionHeader active users
+        span.settings__StatValue= rooms.map(room => room.users.length).reduce((a, b) => a + b, 0)
+
+      div.settings__Stat
+        h3.settings__SectionHeader registered users
+        span.settings__StatValue= users
+
+  .profile__Container
+    h2.form__Header Top 10 active rooms
+
+    table.admin__RoomList
+      thead
+        tr
+          th name
+          th viewers
+          th broadcasters
+          th public
+      tbody
+      each room in rooms.slice(0, 10)
+        tr.admin__RoomListItem
+          td.admin__RoomListItemValue
+            a(href=`/admin/rooms/${room.name}`)= room.name
+          td.admin__RoomListItemValue= room.users.length
+          td.admin__RoomListItemValue= room.users.filter(u => u.isBroadcasting).length
+          td.admin__RoomListItemValue= room.settings.public ? 'yes' : 'no'
+
+  .profile__Container
+    h2.form__Header Send server-wide message
+    form(method="post")
+      input(type='hidden', name='action', value='server-message')
+      .form__InputContainer
+        label(for="message").form__Label message
+        input.form__Input.register__FormInput(type="text", id="message", name="message")
+
+        label(for="message-type").form__Label type
+        select.form__Input.register__FormInput(type="text", id="message-type", name="message-type")
+          option(value="INFO") Info
+          option(value="SUCCESS") Success
+          option(value="ALERT") Alert
+          option(value="WARNING") Warning
+
+      .form__InputContainer
+        button.button.button--blue(type="submit") Send
+        .form__Messages
+          if addModeratorError
+            div.text--red.form__Error= addModeratorError
+
+  .profile__Container
+    h2.form__Header Send email to users
+    form(method="post")
+      input(type='hidden', name='action', value='user-emails')
+      .form__InputContainer
+        label(for="emailSubject").form__Label subject
+        input.form__Input.register__FormInput(type="text", id="emailSubject", name="emailSubject")
+
+      .form__InputContainer
+        label(for="emailMessage").form__Label message
+        textarea.form__Input.register__FormInput(id="emailMessage", name="emailMessage", rows=20)
+
+      .form__InputContainer
+        button.button.button--blue(type="submit") Send
+
+      .form__Messages
+        if success
+          div.text--green.form__Success= success
+        if error
+          span.text--red.form__Error= error
+
+  block js
+

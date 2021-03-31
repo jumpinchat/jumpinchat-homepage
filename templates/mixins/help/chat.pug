@@ -1,0 +1,87 @@
+mixin helpChat()
+  section.form__Segment.profile__Container
+    .wrapper
+      h1 Chat
+
+      article.profile__Article
+        h2 Useful chat actions
+
+        h3 @mentioning
+        p
+          | To get someone's attention, you can @mention their name. Doing so with send them an alert sound
+          | different to the usual chat notification. This, like regular chat notifications, is affected by
+          | whether the recipient has their notifications sounds enabled.
+
+        p
+          | When @mentioning, you can hit <kbd>Tab</kbd> to cycle through nickname matches. For example:
+          | if there is a user with a nickname "testuser", typing <samp>@test</samp> and then hitting
+          | <kbd>Tab</kbd> will autocomplete their name.
+
+        h3 Push notifications
+        p
+          | Push notifications allow you to see message notifications while the window is minimised or not
+          | in focus. They work on both mobile and desktop, if enabled. On joining a room for the first time,
+          | you will be prompted to allow or deny permissinos for notifications. Notifications can also be
+          | enabled or disabled via the room settings menu (cog wheel above the user list).
+
+        p
+          | If you have previously denied notifications, you will not be able to receive them until you have
+          | re-enabled them in your browser. You can do so by opening up your browser permissions options by
+          | clicking the lock icon to the left of your URL bar and changing the setting for "Notifications" to
+          | Allow.
+
+        .figure__Set
+          figure.figure__Item
+            img(src="https://s3.amazonaws.com/jic-assets/chrome-cam-permissions.png", alt="chrome cam permissions")
+            figcaption.figure__Caption Google Chrome
+
+          figure.figure__Item
+            img(src="https://s3.amazonaws.com/jic-assets/firefox-cam-permissions.png", alt="firefox cam permissions")
+            figcaption.figure__Caption Mozilla Firefox
+
+
+      article.profile__Article
+        h2 Private messaging
+
+        p
+          | Private messaging (PMs) between users is possible either by selecting the option
+          | from the user's dropdown menu, or by using a chat command (see "Chat Commands" below).
+          | PMs can only be sent if you are a registered user, and have the "accept private messages" option
+          | enabled in your <a href="/settings/user">user settings</a>.
+
+        p
+          | Conversations are accessed by opening the "PMs" tab on above the chat feed. This tab will
+          | also show a counter with the number of currently active conversations. The PM tab will show a
+          | list of conversations on the right side, if there are any. Conversations with users that
+          | have disconnected will be greyed out. You can also close conversations by hitting the close
+          | button on the conversation list item.
+
+      article.profile__Article
+        h2 Chat Commands
+        dl
+          dt /nick [new nickname]
+          dd change your nickname
+
+          dt /nick [new nickname]
+          dd change your nickname
+
+          dt /color
+          dd change your chat text to a random new color
+
+          dt /shrug
+          dd ¯\_(ツ)_/¯
+
+          dt /me [action]
+          dd emote an action
+
+          dt /msg [nickname] [message]
+          dd send a private message to a user by their nickname
+
+          dt /pm
+          dd alias for /msg
+
+          dt /topic
+          dd view the room topic
+
+          dt /help ([command])
+          dd get help with a specific command, or all commands if none is sent

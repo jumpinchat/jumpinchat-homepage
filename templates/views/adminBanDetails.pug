@@ -1,0 +1,44 @@
+extends ../layouts/default
+
+include ../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> Site bans <i class="fa fa-angle-right"></i> #{ban._id}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h3 Ban details
+              .admin__InfoList
+                .admin__InfoListItem
+                  if ban.userId
+                    .admin__InfoListItemTitle User
+                    .admin__InfoListItemValue
+                      a(href=`/admin/users/${ban.userId}`)= ban.userId
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle User IP
+                  .admin__InfoListItemValue= ban.ip
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Date created
+                  .admin__InfoListItemValue
+                    time.convertDate=ban.createdAt
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Reason
+                  .admin__InfoListItemValue= ban.reason
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Join
+                  .admin__InfoListItemValue= ban.restrictions.join
+
+                .admin__InfoListItem
+                  .admin__InfoListItemTitle Broadcast
+                  .admin__InfoListItemValue= ban.restrictions.broadcast

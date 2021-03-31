@@ -1,0 +1,14 @@
+mixin settingsMenu(page)
+  ul.settings__Menu
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/settings/profile",
+        class={ active: page === 'profile' }) Profile
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/settings/account",
+        class={ active: page === 'account' }) Account
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/settings/room",
+        class={ active: page === 'room' }) Room
+    li.settings__MenuItem
+      a.settings__MenuItemLink(href="/settings/user",
+        class={ active: page === 'user' }) User

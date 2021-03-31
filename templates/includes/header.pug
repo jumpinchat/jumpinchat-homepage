@@ -1,0 +1,40 @@
+header.header
+  .wrapper
+    h1#title.header__Title
+      a(href="/") JumpInChat
+    nav.header__Nav
+      a#new.button.button--text.header__NavItem(
+        href="https://headwayapp.co/jumpinchat-updates",
+        target="_blank",
+        rel="noopener noreferrer"
+        ) What&apos;s new
+      a.button.button--text.header__NavItem(href="/directory") Directory
+      a.button.button--red.header__NavItem(href="/support")
+        img(src="/images/heart.svg", alt="heart to show support")
+        | Support the site
+      if user
+        button#profile-drop-trigger.button.button--white-transparent.header__NavItem.header__ProfileDropdownTrigger(type="button")
+          span= user.username
+
+          if unreadMessages > 0
+            span &nbsp;
+            span.pill.pill--red= unreadMessages
+
+        #profile-drop-container.header__ProfileDropdown
+          a.header__ProfileDropdownItem(href="/" + user.username) Your Room
+          a.header__ProfileDropdownItem(href="/profile") Your Profile
+          a.header__ProfileDropdownItem(href="/messages")
+            span Messages
+            if unreadMessages > 0
+              span &nbsp;
+              span.pill.pill--red= unreadMessages
+          a.header__ProfileDropdownItem(href="/settings") Settings
+          if user.attrs.userLevel === 30
+            a.header__ProfileDropdownItem(href="/admin") Admin dashboard
+          if user.attrs.userLevel >= 20
+            a.header__ProfileDropdownItem(href="/sitemod") Site mod dashboard
+          a.header__ProfileDropdownItem(href="/logout") Log Out
+
+      else
+        a.button.button--white-transparent.header__NavItem(href="/login") Sign In
+        a.button.button--black.header__NavItem(href="/register") Create Account

@@ -1,0 +1,10 @@
+.banner {
+  padding: 1em 1.5em;
+  border-radius: 4px;
+  font-weight: 600;
+
+  &--warning {
+    background-color: $color-yellow-03;
+    text-shadow: 0 1px $color-yellow-05;
+  }
+}

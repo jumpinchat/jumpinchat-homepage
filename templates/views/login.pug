@@ -1,0 +1,29 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width.register
+      .wrapper
+        .register__FormWrapper
+          header.register__Header
+            h2 Log In
+          form#login-form(method="post")
+            input(type='hidden', name='action', value='login')
+            .form__InputContainer
+              label.form__Label(for="username") Username
+              input.form__Input.register__FormInput.form__Input--white#username(name="username", type="text", placeholder="e.g. 'suchuser123'", autocomplete="username name", autocapitalize="off")
+            .form__InputContainer
+              label.form__Label(for="password") Password
+              input.form__Input.register__FormInput.form__Input--white#password(name="password", type="password", autocomplete="password")
+
+            .form__InputContainer
+              a(href='/password-reset/request') Forgot your password?
+
+            .form__InputContainer
+              if errors
+                div.text--red.form__Error #{errors}
+              button.button.button--blue(type="submit") Log In
+
+              div.form__LinkBack
+                | Don't have an account? <a href="/register">Create an account</a> and setup your own room.

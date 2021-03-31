@@ -1,0 +1,129 @@
+extends ../layouts/default
+include ../modal
+include ../mixins/settings/settingsMenu
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Settings <i class="fa fa-angle-right"></i> #{page}
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +settingsMenu(page)
+          .multicol__Main
+            section.form__Segment.profile__Container
+              form(method="post")
+                input(type='hidden', name='action', value='email')
+                h2.form__Header Email
+                .form__InputContainer
+                  label.form__Label(for="email") Email
+                  input.form__Input.register__FormInput#email(name="email", type="text", autocomplete="off", value=user.auth.email)
+
+                .form__InputContainer
+                  label.form__Label(for="passwordEmail") Password
+                  input.form__Input.register__FormInput#passwordEmail(name="passwordEmail", type="password", autocomplete="password")
+                .form__InputContainer
+                  div#is-verified-string(class={
+                          'text--green': user.auth.email_is_verified,
+                          'text--red': !user.auth.email_is_verified
+                        })= user.auth.email_is_verified ? 'Email verified' : 'Email not verified'
+                  .form__InputContainer
+                    button.button.button--blue(type="submit") Update email
+                    if !user.auth.email_is_verified
+                      button#send-verification-email.button.button--default(type="button") Re-send verification email
+
+            section.form__Segment.profile__Container
+              form(method="post")
+                input(type='hidden', name='action', value='account')
+                h2.form__Header Change password
+
+                .form__InputContainer
+                  label.form__Label(for="passwordNew") New Password
+                  input.form__Input.register__FormInput#passwordNew(name="passwordNew", type="password", autocomplete="password")
+
+                .form__InputContainer
+                  label.form__Label(for="passwordNewConfirm") Confirm Password
+                  input.form__Input.register__FormInput#passwordNewConfirm(name="passwordNewConfirm", type="password", autocomplete="password")
+
+                .form__InputContainer
+                  label.form__Label(for="passwordCurrent") Current Password
+                  input.form__Input.register__FormInput#passwordCurrent(name="passwordCurrent", type="password", autocomplete="password")
+
+
+                .form__InputContainer
+                  button.button.button--blue(type="submit") Update account
+
+            section.form__Segment.profile__Container
+                h2.form__Header Site supporter
+                if subscription
+                  p
+                    | You're currently supporting the site by subscribing
+                    | to the <strong>#{subscription.plan.name}</strong> plan
+                  p
+                    | Supporter since
+                    time.convertDate=subscription.plan.created
+
+                  form(method='post')
+                    input(type='hidden', name='action', value='removeSubscription')
+                    .form__InputContainer
+                      button(type="submit").button.button--red Cancel subscription
+                      button.modal-trigger.button.button--blue(type="button", data-target="update-payment") Update payment method
+
+                else
+                  .form__InputContainer
+                    a.button.button--red(href="/support")
+                      img(src='/images/heart.svg', alt='heart icon')
+                      | Support the site
+
+            section.form__Segment.profile__Container
+                h2.form__Header Age verification
+                if !user.attrs.ageVerified
+                  .form__InputContainer
+                    if user.auth.email_is_verified
+                      a.button.button--blue(href="/ageverify") Verify your age
+                    else
+                      button.button.button--blue(type="button", disabled=true) Verify your age
+                      p.text--red A verified email address is required
+                    p.text--sub
+                      | <a href="/help/ageverify">Verifying your age</a> will
+                      | allow you to broadcast in <a href="/help/room#age-restricted">age restricted rooms</a>
+                else
+                  span.text--green You have been verified as 18+
+
+            section.form__Segment.profile__Container.profile__Container--danger
+                h2.form__Header Danger zone
+                .form__InputContainer
+                  button.modal-trigger.button.button--red(type="button", data-target="remove-account") Remove account
+
+            +modal('remove-account', 'Remove account')
+              form(method="post")
+                input(type='hidden', name='action', value='removeuser')
+                p
+                  | This will <strong>permanently</strong> remove your account and
+                  | associated chat room. This action is irreversable, are you
+                  | sure you wish to continue?
+
+                .modal__Footer
+                  button.modal-btn-close.button.modal__Action(type="button") Cancel
+                  button#delete-account-confirm.button.button--red.modal__Action(type="submit") Remove
+
+
+            +modal('update-payment', 'Update payment method')
+              form(method="post")
+                input(type='hidden', name='action', value='updatepayment')
+
+                div.payment__Source
+                  img.payment__SourceLogo(src=`https://s3.amazonaws.com/jic-assets/card-${brandMap[subscription.source.brand]}.svg`, alt="")
+                  span.payment__SourceNum= `${subscription.source.brand} ending in ${subscription.source.last4}`
+                  span.payment__SourceDate= `Exp. ${subscription.source.expiry.month}/${subscription.source.expiry.year}`
+
+                .modal__Footer
+                  button.modal-btn-close.button.modal__Action(type="button") Cancel
+                  button#delete-account-confirm.button.button--blue.modal__Action(type="submit") Update
+

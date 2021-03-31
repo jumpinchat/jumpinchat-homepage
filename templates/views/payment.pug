@@ -1,0 +1,83 @@
+extends ../layouts/default
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Payment
+
+        div.payment__Container
+          section.payment__Section
+            div.profile__Container
+              h2.form__Header= product.title
+              p= product.description
+
+              if beneficiary
+                p.payment__GiftLabel
+                  | Gift to user&nbsp;
+                  a(href=`/profile/${beneficiaryUser.username}`).profile__UserSnippet
+                    img.userIconPreview__Icon(
+                      src=`https://s3.amazonaws.com/jic-uploads/${beneficiaryUser.profile.pic}`,
+                      alt=`${beneficiaryUser.username}`
+                    )
+                    span= beneficiaryUser.username
+
+              ul.support__ProductFeatures
+                each feature in product.features
+                  li.support__ProductFeature= feature
+                if productId === 'onetime'
+                  li.support__ProductFeature
+                    | Subscriber bonuses for
+                    span= ` ${Math.floor(14 * (product.amount / 300))} `
+                    | days (14 days per $3)
+
+              span.support__ProductPrice= `$${product.amount/100}${product.frequency}`
+
+              form#payment-form(method="post").payment__Form
+                div.form__InputContainer.form__InputContainer--inline
+                  button#card-submit.button.button--blue(type='submit') Open checkout
+                  img#loading.loading.u-hidden(src="/images/loading.svg", alt='loading indicator')
+
+                  a(href='https://stripe.com', target='_blank', rel='noreferrer,nofollow')
+                    img(src='/images/powered_by_stripe.svg', alt='Stripe is used for all payments')
+
+                div.form__InputContainer
+                  .form__Messages
+                    span#card-errors.text--red(role='alert')
+
+
+block js
+  script.
+    const stripe = Stripe('#{stripeKey}');
+    const form = document.getElementById('payment-form');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const submitButton = document.getElementById('card-submit');
+      const loading = document.getElementById('loading');
+
+      submitButton.disabled = true;
+      loading.classList.remove('u-hidden');
+      submitButton.classList.add('u-hidden');
+
+      const result = stripe.redirectToCheckout({
+        sessionId: '#{checkoutSessionId}'
+      }).then(function (result) {
+        if (result.error) {
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+          submitButton.disabled = false;
+          loading.classList.add('u-hidden');
+          submitButton.classList.remove('u-hidden');
+        } else {
+          // Send the token to your server.
+        }
+      });
+    });
+
+

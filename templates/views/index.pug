@@ -1,0 +1,99 @@
+extends ../layouts/default
+
+include ../mixins/room
+include ../mixins/supportTable.pug
+
+block content
+  section#hero.full-width.full-width--blue.hero
+    include ../includes/header.pug
+    .wrapper
+
+      .hero__Message
+        h2.hero__MessagePrimary Simple video chat rooms
+        span.hero__MessageSecondary
+          | Just create a room, jump in, and start chatting!
+
+      form.hero__Form(method='get')
+        input(type="hidden", name="action", value="room.get")
+        input.hero__FormInput(type="text",
+          name="roomname",
+          pattern="[a-zA-Z0-9]+",
+          maxlength="30",
+          placeholder="Choose your room name")
+        button.button.button--black.hero__FormButton(type="submit") Start Chatting
+
+  if recentRooms.length > 0
+    section#rooms-list-short.full-width.full-width--white
+      .wrapper
+        h2.section-header Recent chat rooms
+        .rooms__Wrapper
+          if roomListError
+            span.rooms__Empty Could not get room list
+          else if !recentRooms.length
+            span.rooms__Empty No recent rooms
+          else
+            each room in recentRooms
+              +room(room)
+  section#rooms-list-short.full-width.full-width--white
+    .wrapper
+      h2.section-header Active chat rooms
+      .rooms__Wrapper
+        if roomListError
+          span.rooms__Empty Could not get room list
+        else if !rooms.length
+          span.rooms__Empty No active rooms
+        else
+          each room in rooms
+            +room(room)
+
+          if rooms.length === 9
+            div.rooms__MoreLink
+              a.button.button--blue(href="/directory") View room directory
+
+
+  section.full-width.full-width--blue.support
+    .wrapper
+      h2.section-header.white Support the site
+      +supportTable(user)
+
+  section.full-width.full-width--grey.info
+    .wrapper
+      article.info__Article
+        .info__ArticleContent
+          h2.info__ArticleTitle Quick, simple and free video chat rooms
+          .info__ArticleText
+            p
+              | Either create a quick, temporary chat room to instantly be able to invite people and chat,
+              | or register an account for a permanent chat&nbsp;room.
+
+            p
+              | Creating a chat room is as easy as navigating to our URL followed by your room name, for example:
+              | <samp>jumpin.chat/yourroomhere</samp>. The chat room will then be active as long as it&apos;s populated.
+            p
+              | <a href="/register">Create an account</a> to reserve your own permanent, customisable chat&nbsp;room.
+
+      article.info__Article
+        .info__ArticleContent
+          h2.info__ArticleTitle No setup required
+          .info__ArticleText
+            p
+              | No need to download any applications or plugins,
+              | <strong>JumpInChat</strong> uses
+              | <abbr title="Web Real-Time Communications">WebRTC</abbr>, a browser-based
+              | method of sending and receiving video and audio, so you'll never have to worry about
+              | updating Flash again!
+            p
+              | Video chat will work out-of-the-box, on all modern browsers and mobile devices and is future proof,
+              | using the latest web technologies. All you have to do is jump into your video chat room, choose your webcam,
+              | and instantly start broadcasting.
+      article.info__Article
+        .info__ArticleContent
+          h2.info__ArticleTitle Up to 12 broadcasters
+          .info__ArticleText
+            p
+              | What's the best way to really get to know people? By talking to them face-to-face of course!
+            p
+              | <strong>JumpInChat</strong> allows for up to 12 broadcasters at any one time, with live video and audio chat.
+              | Better yet, it's completely free to get&nbsp;started.
+            p
+              | There's no better way to socialize and make life-time friends.

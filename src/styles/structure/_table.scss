@@ -1,0 +1,37 @@
+table {
+  width: 100%;
+}
+
+th {
+  padding: {
+    top: 0.5em;
+    bottom: 0.5em;
+  }
+  font: {
+    size: 0.85em;
+    weight: 400;
+  }
+  color: $color-black-05;
+  text-align: left;
+}
+
+thead {
+  & > tr {
+    border-bottom: 1px solid $color-black-08;
+  }
+}
+
+tbody {
+  & > tr {
+    & + tr {
+      border-top: 1px solid $color-black-08;
+    }
+  }
+}
+
+td {
+  padding: {
+    top: 0.25em;
+    bottom: 0.25em;
+  }
+}

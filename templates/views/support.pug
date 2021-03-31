@@ -1,0 +1,34 @@
+extends ../layouts/default
+include ../mixins/supportTable.pug
+
+block content
+  .site-wrapper
+    include ../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Support the site
+
+          article
+            p
+              | Support JumpInChat by becoming a <strong>site supporter</strong>!
+            p
+              | All funds received from supporting the site will help cover
+              | site hosting and operation. By doing so, you can help JumpInChat
+              | grow to become bigger, faster and more awesome.
+
+            p
+              | Site supporters will also get some additional benefits as a
+              | reward for their generosity, such as additional user icons and
+              | trophies. Additional perks will be added in the future, which
+              | will become available to all existing site supporters. Stay
+              | tuned for updates!
+
+        section.support__Section
+          h2.support__Header Payment options
+          +supportTable(user)
+

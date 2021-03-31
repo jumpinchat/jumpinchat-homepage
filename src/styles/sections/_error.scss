@@ -1,0 +1,24 @@
+.error {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	transform: translate(0, 50%);
+
+	&__Title {
+		margin: 0;
+		font: {
+			size: 5em;
+		}
+	}
+
+	&__Lead {
+    max-width: 33em;
+		text-align: center;
+		font: {
+			size: 1.5em;
+			weight: 300;
+		}
+	}
+}

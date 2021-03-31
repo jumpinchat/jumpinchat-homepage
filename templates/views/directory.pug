@@ -1,0 +1,22 @@
+extends ../layouts/default
+
+include ../mixins/room
+include ../mixins/pagination
+
+block content
+  section.full-width.fill-height
+    include ../includes/header.pug
+    .wrapper
+      section#rooms-list-short.full-width.full-width--white
+        .wrapper
+          h2.section-header= 'Room list page ' + page
+          .rooms__Wrapper
+            if roomListError
+              span.rooms__Empty Could not get room list
+            else if !rooms.length
+              span.rooms__Empty No active rooms
+            else
+              each room in rooms
+                +room(room)
+      if pagination
+        +pagination(pagination)

@@ -1,0 +1,11 @@
+mixin pagination(pagination)
+  nav.pagination
+    each page in pagination.range
+      if page.label
+        a.pagination__Page.pagination__End(href='?page=' + page.page)
+          | #{page.label}
+      else if page.isCurrent
+        a.pagination__Page.pagination__Page--current(href='?page=' + page.page)= page.page
+      else
+        a.pagination__Page(href='?page=' + page.page)= page.page
+

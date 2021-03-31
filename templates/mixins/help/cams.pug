@@ -1,0 +1,110 @@
+mixin helpCams()
+  section.form__Segment.profile__Container
+    .wrapper
+      h1 Cams and Broadcasting
+      section
+        h2 Browser requirements
+        p
+          | JumpInChat uses a technology called WebRTC for video streams, which is a way to transfer data to and from a browser.
+          | WebRTC is supported on the latest versions most major browsers except Internet Explorer.
+          | In order to view and broadcast you will need either Chrome (or other Blink-based browsers) or Firefox.
+          | It should also work on later versions of Android (e.g. Chrome Mobile and Samsung Internet), as well as versions of
+          | iOS Safari 12.2 and later.
+
+        h2#permissions
+          a(href="#permissions") Browser permissions
+        p
+          | In order to broadcast, your browser must have permission to access your audio and video media sources.
+          | Your browser should ask for permissions for your webcam and microphone when you select them, but you can also define them yourself from the site settings dropdown in your browser.
+
+        .figure__Set
+          figure.figure__Item
+            img(src="https://s3.amazonaws.com/jic-assets/chrome-cam-permissions.png", alt="chrome cam permissions")
+            figcaption.figure__Caption Google Chrome
+
+          figure.figure__Item
+            img(src="https://s3.amazonaws.com/jic-assets/firefox-cam-permissions.png", alt="firefox cam permissions")
+            figcaption.figure__Caption Mozilla Firefox
+
+
+        h2 Screen sharing
+        p
+          | Screen sharing is supported for desktop browsers only currently (Chrome and Firefox).
+          | Firefox supports it out-of-the-box. Chrome, however, requires an extension due to increased restrictions on permissions.
+          | You can get the Chrome extension
+          | <a href="https://chrome.google.com/webstore/detail/janus-webrtc-screensharin/hapfgfdkleiggjjpfpenajgdnfckjpaj" target="_blank" rel="noopener noreferrer">here</a>.
+          | It is provided by <a href="http://www.meetecho.com/" target="_blank">Meetecho</a> who develop the media server JumpInChat uses for managing it's streams.
+
+
+
+
+
+      section
+        h2#debugging
+          a(href="#debugging") Debugging
+
+        article.profile__Article
+          h3 Green cams
+          h4 Disable hardware acceleration
+          p
+
+            | Follow the instructions below for Chrome:
+
+          ol
+            li Go to More
+            li Select Settings.
+            li At the bottom of the page, click or tap Advanced.
+            li Under 'System', enable the toggle next to 'Use hardware acceleration when available'.
+
+          p
+            | If you're using a browser other than Chrome, you can learn how to disable
+            | hardware acceleration in that browser's help content.
+
+
+          h4 Update your graphics driver
+          p Updating your computer’s graphics driver may correct many of the problems listed above.
+          p For PC users: visit the website of your computer manufacturer to download the latest driver.
+
+        article.profile__Article
+          h3#debug-unavailable
+            a(href="#debug-unavailable") Video source is unavailable
+
+          h4 "Constraints could not be satisfied" error
+
+          p
+            | Errors of this type typically mean the video source you're attempting to use
+            | doesn't support the resolution chosen to broadcast with. For example, if the
+            | chosen resolution is 480p (640x480) but the source only outputs 1920x1080,
+            | the browser will not be able to access it.
+          p
+            | In most cases, this will happen when you attempt to use a virtual media device
+            | rather than an actual webcam. If this is the case, try and make sure the
+            | virtual webcam outputs at a usable resolution.
+
+          p
+            | For more information about what resolutions your devices can output, check out
+            | the media internals (<code>chrome://media-internals</code>) page, if you're on Chrome, and
+            | open the "Video Capture" tab. This will show a table of devices and formats (resolutions)
+            | available for use.
+
+          h4 "Failed to allocate videosource" or "Could not start video source" error
+
+          p
+            | This error occurs when a video source is already in use by another process.
+            | Essentially, the operating system has reserved the device and prevents
+            | anything else using it.
+
+          p
+            | The only way to fix this error is to stop the other process from using the
+            | device. If this fails to work, you must either close the suspect program,
+            | or restart your computer if all else fails.
+
+          h4 "Permission denied" error
+
+          p
+            | You have previously denied the browser permission to access the media device(s)
+            | and must manually allow it.
+
+          p
+            | See the section on <a href="#permissions">browser permissions</a> to see how
+            | to allow access.

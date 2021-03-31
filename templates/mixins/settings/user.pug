@@ -1,0 +1,114 @@
+mixin settingsUser(user)
+  section.form__Segment.profile__Container
+    h2.form__Header User options
+    form(method="post")
+      input(type='hidden', name='action', value='user')
+      .form__InputContainer
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="playVideos", name="playYtVideos", checked=user.settings.playYtVideos)
+          label(for="playVideos") Play YouTube videos
+
+      .form__InputContainer
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="darkTheme", name="darkTheme", checked=user.settings.darkTheme)
+          label(for="darkTheme") Use dark theme for chat rooms
+
+      .form__InputContainer
+        span.form__Label
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="pms", name="allowPrivateMessages", checked=user.settings.allowPrivateMessages)
+          label(for="pms") Allow private messages
+
+      .form__InputContainer
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="notifications", name="pushNotificationsEnabled", checked=user.settings.pushNotificationsEnabled)
+          label(for="notifications") Enable push notifications
+
+      .form__InputContainer
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="updates", name="receiveUpdates", checked=user.settings.receiveUpdates)
+          label(for="updates") Receive email updates
+
+      .form__InputContainer
+        .form__RadioContainer
+          input.form__Input-checkbox(type="checkbox", value="true", id="message-updates", name="receiveMessageNotifications", checked=user.settings.receiveMessageNotifications)
+          label(for="message-updates") Receive emails when you receive an offline message
+
+      .form__InputContainer
+        button.button.button--blue(type="submit") Update user settings
+        .form__Messages
+          if error
+            div.text--red.form__Error= error
+
+  section.form__Segment.profile__Container
+    h2.form__Header Ignore list
+    form(method="post")
+      input(type='hidden', name='action', value='ignore')
+      .form__InputContainer
+        label(for="ignore").form__Label Add a user to ignore by their username
+        input.form__Input.register__FormInput(type="text", id="ignore", name="username")
+      .form__InputContainer
+        button.button.button--blue(type="submit") Ignore user
+
+      ul.settings__RoomModList
+        each ignored in user.settings.ignoreList
+          if ignored.username !== user.username
+            li.settings__RoomModListItem
+              span= ignored.handle
+              button.button.button--text-black.settings__UserIgnoreRemove(type="button", data-username=user.username, data-id=ignored._id)
+                i.fa.fa-close
+
+  section.form__Segment.profile__Container
+    h2.form__Header Video settings
+    form(method="post")
+      input(type='hidden', name='action', value='videoQuality')
+      .form__InputContainer
+        label(for="quality").form__Label Broadcast video quality
+        select.form__Input.register__FormInput(id="quality", name="quality", disabled=!isGold)
+          each option, key in videoQuality
+            option(value=key, selected=user.settings.videoQuality === key)= option.label
+      .form__InputContainer
+        if isGold
+          button.button.button--blue(type="submit") Update user settings
+        else
+          a(href=`/support`).button.button--red
+            i.fa.fa-heart.button__Icon
+            | Become a Supporter
+
+  section.form__Segment.profile__Container
+    h2.form__Header User list icon
+
+    form(method="post", enctype="multipart/form-data")
+      input(type='hidden', name='action', value='userListIcon')
+      .form__InputContainer
+        label.form__Label(for="file") Image should ideally be square. It will be resized automatically. (Max file size 128Kb)
+        input.form__Input(type="file", name="image", id="file", disabled=!isGold)
+
+      if isGold
+        if user.settings.userIcon
+          h3 User list preview
+          span.text--sub Light theme
+          div.userIconPreview__Container
+            div.userIconPreview__Item
+              img.userIconPreview__Icon(src=`https://s3.amazonaws.com/jic-uploads/${user.settings.userIcon}`, alt="current user icon")
+              span.userIconPreview__Handle= user.username
+
+          span.text--sub Dark theme
+          div.userIconPreview__Container.dark
+            div.userIconPreview__Item
+              img.userIconPreview__Icon(src=`https://s3.amazonaws.com/jic-uploads/${user.settings.userIcon}`, alt="current user icon")
+              span.userIconPreview__Handle= user.username
+
+
+
+      .form__InputContainer
+        if isGold
+          button.button.button--blue(type="submit") Upload image
+        else
+          a(href=`/support`).button.button--red
+            i.fa.fa-heart.button__Icon
+            | Become a Supporter
+
+        div.text--green.form__Success.imageUpload__Status--success.u-hidden Image uploaded successfully
+        div.text--green.form__Error.imageUpload__Status--error.u-hidden Image upload failed
+

@@ -1,0 +1,6 @@
+mixin modal(id, title)
+  div.modal(id=id, tabindex="-1", role="dialog")
+    .modal__Window(tabindex="-1")
+      h1.modal__Header= title
+      .modal__Body
+        block

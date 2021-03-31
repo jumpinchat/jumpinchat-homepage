@@ -1,0 +1,60 @@
+extends ../../layouts/default
+include ../../mixins/admin/adminMenu
+
+block content
+  .site-wrapper
+    include ../../includes/header
+    section.full-width
+      if success
+        div.settings__PageBanner.settings__PageBanner--success= success
+      if error
+        div.settings__PageBanner.settings__PageBanner--error= error
+      .wrapper
+        header.register__Header
+          h2.page-header Admin <i class="fa fa-angle-right"></i> Site mods
+        .multicol__Wrapper
+          .multicol__Side.multicol__Side--left
+            +adminMenu(page)
+          .multicol__Main
+            .profile__Container
+              h2.form__Header Site mod list
+
+
+              div.form__InputContainer
+                a(href="/admin/sitemods/activity") Activity log
+
+              div.form__InputContainer.form__InputContainer--inline
+                form(method="post").form__InputInline
+                  input(type='hidden', name='action', value='add-mod')
+                  div.form__InputContainer.form__InputContainer--inline
+                    label.form__Label(for="username") Add moderator by username
+                    input.form__InlineInput(id="username", name="username", type="text")
+                  div.form__InputContainer
+                    button(type="submit").button.button--text-black
+                      i.fas.fa-save
+
+              table.admin__RoomList
+                thead
+                  tr
+                    th User
+                    th Added by
+                    th Created
+                    th
+                tbody
+                each mod in siteMods
+                  tr.admin__RoomListItem
+                    td.admin__RoomListItemValue
+                      a(href=`/admin/users/${mod.user._id}`)= mod.user.username
+                    td.admin__RoomListItemValue
+                      a(href=`/admin/users/${mod.addedBy._id}`)= mod.addedBy.username
+
+                    td.admin__RoomListItemValue
+                      time.convertDate= mod.createdAt
+
+                    td.admin__RoomListItemValue
+                      form(method="post")
+                        input(type='hidden', name='action', value='remove-mod')
+                        input(type='hidden', name='modId', value=mod._id)
+                        button.button.button--text-black(type="submit")
+                          i.fa.fa-close(aria-hidden="true")
+

@@ -1,0 +1,42 @@
+.userIconPreview {
+  &__Container {
+    width: 190px;
+    margin: {
+      bottom: 1em;
+    }
+    padding: 1em;
+    border-color:  #E7ECF2;
+    font-size: 1.3rem;
+
+    &.dark {
+      background-color: #3c3836;
+      color: #fbf1c7;
+      border-color: #504945;
+    }
+  }
+
+  &__Item {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    border-color: inherit;
+    border-top-width: 1px;
+    border-top-style: solid;
+
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+
+  &__Icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__Handle {
+    margin: {
+      left: 0.25em;
+    }
+
+    font-weight: 700;
+  }
+}
