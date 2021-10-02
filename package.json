@@ -8,7 +8,7 @@
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^3.0.1",
     "async": "2.1.4",
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.1",
     "bunyan": "^1.8.12",
     "connect-mongo": "^1.3.2",
     "cropperjs": "^1.0.0-rc.3",
@@ -29,7 +29,7 @@
     "node-sass-middleware": "0.11.0",
     "normalize-scss": "^6.0.0",
     "pagination-object": "^1.2.2",
-    "pug": "^2.0.3",
+    "pug": "^3.0.2",
     "request": "^2.81.0",
     "request-ip": "^2.1.3",
     "sitemap": "^2.0.0",
